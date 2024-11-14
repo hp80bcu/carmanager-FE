@@ -1,21 +1,120 @@
-useEffect(() => {
-    const fetchUserInfo = async () => {
-      const accessToken = getCookie('Authorization');
-      console.log("액세스 토큰: " + accessToken);
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Nav from "../../components/Nav";
+import { useParams } from "react-router-dom"; // useParams는 컴포넌트 최상위에서 호출해야 합니다.
+import "./UserInfoModify.css";
 
-      if (accessToken) {
+interface UserInfo {
+  userId: bigint | null;
+  nickname: string;
+  phoneNumber: string;
+  address: string;
+}
+
+const UserInfoModify: React.FC = () => {
+  // 컴포넌트 최상위에서 useParams 호출
+  const { userId } = useParams<{ userId: string }>(); // URL에서 userId를 가져옵니다.
+
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    userId: null,
+    nickname: "",
+    phoneNumber: "",
+    address: "",
+  });
+
+  // useEffect는 userId가 바뀔 때마다 실행되도록 설정합니다.
+  useEffect(() => {
+    if (userId) {
+      const fetchUserInfo = async () => {
         try {
-          const response = await axios.get('/users/userinfo', {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-          setUsername(response.data.username); // 사용자 이름 설정
-          setUserId(response.data.userId);
-
-          console.log("Fetched User ID:", response.data.userId); // User ID 확인용 로그
+          // URL 파라미터로 받은 userId를 bigint로 변환해서 API 호출
+          const response = await axios.get(`http://localhost:8080/users/${BigInt(userId)}`);
+          setUserInfo(response.data); // 응답 받은 데이터를 상태에 저장
         } catch (error) {
-          console.error('Failed to fetch user info:', error);
+          console.error("Error fetching user info:", error);
         }
-      }
-    };
+      };
+
+      fetchUserInfo(); // userId가 있을 때만 데이터를 가져옵니다.
+    }
+  }, [userId]); // userId가 변경될 때마다 다시 호출됩니다.
+
+  const handleWithdrawButtonClick = () => {
+    console.log("회원 탈퇴 버튼 클릭됨!");
+  };
+
+  const handleCancleButtonClick = () => {
+    console.log("취소 버튼 클릭됨!");
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setUserInfo({ ...userInfo, [name]: value });
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log("Submit:", userInfo);
+    console.log("저장 버튼 클릭됨!");
+  };
+
+  return (
+    <>
+      <Nav />
+      <div className="container">
+        <div className="user-info-edit">
+          <h3>회원정보 수정</h3>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="nickname">닉네임</label>
+              <input
+                type="text"
+                id="nickname"
+                name="nickname"
+                placeholder="User"
+                value={userInfo.nickname}
+                onChange={handleChange}
+                style={{ width: "100px" }}
+              />
+            </div>
+            <div>
+              <label htmlFor="phoneNumber">전화번호</label>
+              <input
+                type="text"
+                id="phoneNumber"
+                name="phoneNumber"
+                placeholder="‘-’ 생략하여 입력"
+                value={userInfo.phoneNumber}
+                onChange={handleChange}
+                style={{ width: "250px" }}
+              />
+            </div>
+            <div>
+              <label htmlFor="address">주소</label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                placeholder="상세 주소를 입력"
+                value={userInfo.address}
+                onChange={handleChange}
+                style={{ width: "250px" }}
+              />
+            </div>
+            <div className="button-container">
+              <button type="button" onClick={handleCancleButtonClick}>취소</button>
+              <button type="submit">저장</button>
+            </div>
+          </form>
+        </div>
+        <div className="button-container2">
+          <button type="button" className="delete-button" onClick={handleWithdrawButtonClick}>
+            회원 탈퇴
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default UserInfoModify;

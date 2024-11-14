@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Nav from "../../components/Nav";
 import "./UserInfoModify.css";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 interface UserInfo {
@@ -13,6 +13,7 @@ interface UserInfo {
 }
 
 const UserInfoModify: React.FC = () => {
+  const navigate = useNavigate();
   // 컴포넌트 최상위에서 useParams 호출
   const { userId } = useParams<{ userId: string }>(); // URL에서 userId를 가져옵니다.
 
@@ -42,51 +43,60 @@ const UserInfoModify: React.FC = () => {
     }
   }, [userId]); // userId가 변경될 때마다 다시 호출됩니다.
 
-  const handleWithdrawButtonClick = () => {
-    // 여기에 회원 탈퇴 기능 구현
-    console.log("회원 탈퇴 버튼 클릭됨!");
-    // 예시:
-    // - 회원 탈퇴 확인 다이얼로그 띄우기
-    // - 백엔드 서버로 회원 탈퇴 요청 보내기 (API 호출)
-    // - 사용자 세션 및 데이터 삭제
-    // - 로그인 페이지로 이동
+  // 회원 탈퇴 기능
+  const handleWithdrawButtonClick = async () => {
+    try {
+      if (userId) {
+        await axios.delete(`http://localhost:8080/users/${BigInt(userId)}`);
+        alert("회원 탈퇴가 완료되었습니다.");
+        navigate("/"); // root 화면으로 이동
+      } else {
+        alert("사용자 ID가 없습니다.");
+      }
+    } catch (error) {
+      console.error("회원 탈퇴 실패:", error);
+      alert("회원 탈퇴에 실패했습니다.");
+    }
   };
 
+  // 취소 버튼 클릭 시 홈 화면으로 이동
   const handleCancleButtonClick = () => {
-    // 여기에 취소 기능 구현
-    console.log("취소 버튼 클릭됨!");
-    // 예시:
-    // - 백엔드 서버로 회원 탈퇴 요청 보내기 (API 호출)
-    // - 사용자 세션 및 데이터 삭제
-    // - 로그인 페이지로 이동
+    navigate("/");
   };
 
-  const handleChangeButtonClick = () => {
-    // 여기에 저장 기능 구현
-    console.log("취소 버튼 클릭됨!");
-    // 예시:
-    // - 백엔드 서버로 회원 탈퇴 요청 보내기 (API 호출)
-    // - 사용자 세션 및 데이터 삭제
-    // - 로그인 페이지로 이동
+  // 사용자 정보 변경 후 서버에 저장
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      if (userInfo.nickname && userInfo.phoneNumber && userInfo.address) {
+        // 사용자 정보를 백엔드로 전송 (PUT 요청을 사용)
+        const response = await axios.put(
+          `http://localhost:8080/users/${userInfo.userId}`,
+          userInfo
+        );
+        alert("회원 정보가 수정되었습니다.");
+      }
+      else{
+        alert("입력된 닉네임, 전화번호, 주소가 없습니다.");
+      }
+    } catch (error) {
+      console.error("회원 정보 수정 실패:", error);
+      alert("회원 정보 수정에 실패했습니다.");
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserInfo({ ...userInfo, [name]: value });
   };
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    // 여기에 실제 서버에 데이터를 전송하는 로직 추가
-    console.log("Submit:", userInfo);
-    console.log("저장 버튼 클릭됨!");
-  };
+
   return (
     <>
       <Nav />
       <div className="userinfomodifycontainer">
         <div className="user-info-edit">
           <h3>회원정보 수정</h3>
-          <form onSubmit={handleSubmit}>
+          <form>
             <div>
               <label htmlFor="nickname">닉네임</label>
               <input
@@ -97,7 +107,7 @@ const UserInfoModify: React.FC = () => {
                   userInfo.nickname ? String(userInfo.nickname) : "User"
                 }
                 value={userInfo.nickname}
-                onChange={handleChange}
+                // onChange={handleChange}
                 style={{ width: "100px" }}
               />
             </div>
@@ -109,7 +119,7 @@ const UserInfoModify: React.FC = () => {
                 name="phoneNumber"
                 placeholder="‘-’ 생략하여 입력"
                 value={userInfo.phoneNumber}
-                onChange={handleChange}
+                // onChange={handleChange}
                 style={{ width: "250px" }}
               />
             </div>
@@ -121,7 +131,7 @@ const UserInfoModify: React.FC = () => {
                 name="address"
                 placeholder="상세 주소를 입력"
                 value={userInfo.address}
-                onChange={handleChange}
+                // onChange={handleChange}
                 style={{ width: "250px" }}
               />
             </div>
@@ -129,7 +139,7 @@ const UserInfoModify: React.FC = () => {
               <button type="button" onClick={handleCancleButtonClick}>
                 취소
               </button>
-              <button type="submit" onClick={handleChangeButtonClick}>
+              <button type="submit" onClick={handleSubmit}>
                 저장
               </button>
             </div>

@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 0.625rem; /* 10px */
-  height: 12.5rem; /* 200px */
+  margin-top: 0.625rem;
+  height: 12.5rem;
 }
 
 .ad {
@@ -11,21 +11,21 @@
   flex-direction: column;
   align-items: center;
   background-color: gray;
-  width: 50rem; /* 800px */
-  height: 12.5rem; /* 200px */
+  width: 50rem;
+  height: 12.5rem;
 }
 
 .ad text {
-  margin-top: 5.625rem; /* 90px */
+  margin-top: 5.625rem;
 }
 
 .modelsearch {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50rem; /* 800px */
-  height: 12.5rem; /* 200px */
-  margin-top: 1.875rem; /* 30px */
+  width: 50rem;
+  height: 12.5rem;
+  margin-top: 1.875rem;
 }
 
 .modelsearch text {
@@ -36,19 +36,18 @@
 .modelsearchAreaLine {
   flex-direction: column;
   display: flex;
-  width: 50rem; /* 800px */
-  height: 12.5rem; /* 200px */
-  /* background-color: aqua; */
+  width: 50rem;
+  height: 12.5rem;
   border: 1px solid #D9D9D9;
-  border-radius: 0.313rem; /* 5px */
+  border-radius: 0.313rem;
 }
 
 .notice {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50rem; /* 800px */
-  height: 12.5rem; /* 200px */
+  width: 50rem;
+  height: 12.5rem;
 }
 .notice text {
   align-self: flex-start; /* 텍스트를 왼쪽으로 정렬 */
@@ -57,11 +56,10 @@
 .noticeAreaLine {
   flex-direction: column;
   display: flex;
-  width: 50rem; /* 800px */
-  height: 12.5rem; /* 200px */
-  /* background-color: aqua; */
+  width: 50rem;
+  height: 12.5rem;
   border: 1px solid #D9D9D9;
-  border-radius: 0.313rem; /* 5px */
+  border-radius: 0.313rem;
   margin-bottom: 1rem;
 }
 
@@ -71,16 +69,17 @@
   justify-content: center;
   align-items: center;
   width: 14rem;
-  width: 14rem;
+  height: 2rem;
   background-color: #26cfae;
   color: white;
   border: none;
+  border-radius: 0.1875rem; 
   cursor: pointer;
   font-weight: bold;
   font-size: 1.125rem;
   margin-bottom: 1rem;
 }
 
-.button-container:hover {
+.home-button-container:hover {
   color: black;
 }
