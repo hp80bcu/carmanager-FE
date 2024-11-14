@@ -1,38 +1,52 @@
-
 import React, { useEffect, useState } from "react";
+import CarCard from '../cars/CarCard';
+import { CarData } from '../cars/CarData';
 import SideNav from "../../components/SideNav";
 import SearchBar from "../../components/Searchbar/Searchbar";
-import CarList from "../cars/CarItem/CarList";
-import { Car, SearchResult } from "../../components/Car";
+import axios from 'axios';
 
 
 const SearchPage = () => {
-  const [searchResults, setSearchResults] = useState<Car[]>([]);
-
-  const totalCars = 150000; // 예시 데이터 값 (API 호출로 가져온 데이터로 설정 가능)
+  const [cars, setCars] = useState<CarData[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [totalCars, setTotalCars] = useState<number>(0);
 
   const handleSearch = async (searchTerm: string) => {
-    // 검색 로직 구현 (예: API 호출, 데이터베이스 조회 등)
-    const response = await fetch(`/api/cars?search=${searchTerm}`);
-    const data: SearchResult = await response.json();
-    setSearchResults(data.cars);
+    setSearchTerm(searchTerm);
+    try {
+      const response = await axios.get(`/api/cars?search=${searchTerm}`);
+      setCars(response.data.cars);
+      setTotalCars(response.data.totalCars); // 서버에서 총 차량 갯수를 받아서 설정
+    } catch (error) {
+      console.error('차량 데이터를 가져오는 중 오류 발생:', error);
+    }
   };
 
   useEffect(() => {
-    // 초기 데이터 로딩
-    const fetchData = async () => {
-      const response = await fetch("/api/cars");
-      const data: SearchResult = await response.json();
-      setSearchResults(data.cars);
+    const fetchInitialData = async () => {
+      try {
+        const response = await axios.get("/cars");
+        setCars(response.data.cars);
+        setTotalCars(response.data.totalCars); // 서버에서 총 차량 갯수를 받아서 설정
+      } catch (error) {
+        console.error("Error fetching car data:", error);
+      }
     };
-    fetchData();
+    fetchInitialData();
   }, []);
 
   return (
     <>
       <SideNav />
-      <SearchBar placeholder={`현재 ${totalCars.toLocaleString()} 대의 차량이 등록되어 있습니다!`} onSearch={handleSearch} />
-      {/* <CarList cars={searchResults} /> */}
+      <SearchBar
+        placeholder={`${totalCars.toLocaleString()} 대의 차량이 등록되어 있습니다!`}
+        onSearch={handleSearch}
+      />
+      <div>
+        {cars.map((car) => (
+          <CarCard key={car.id} {...car} />
+        ))}
+      </div>
     </>
   );
 };

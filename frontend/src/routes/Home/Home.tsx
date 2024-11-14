@@ -37,24 +37,23 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <div className="container">
+      <div className="homecontainer">
         <div className="ad">
           <text>A.D</text>
         </div>
       </div>
-      <div className="container">
+      <div className="homecontainer">
         <div className="modelsearch">
           <text>모델 검색</text>
           <div className="modelsearchAreaLine">
-            <Container>
+            <Container style={{height:"3rem", marginBottom:"1rem", marginTop:"3rem"}}>
               <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                 <InputLabel id="manufacturers">제조사</InputLabel>
                 <Select
                   labelId="manufacturers"
                   id="manufacturers"
                   label="제조사"
-                  value={ manufacturer }
-                  
+                  value={manufacturer}
                   onChange={(e) => setManufacturer(e.target.value as string)}
                 >
                   {manufacturers.map((manufacturer) => (
@@ -99,11 +98,24 @@ export default function Home() {
             </Container>
             <button
               type="button"
-              className="button-container"
+              className="home-button-container"
               onClick={handleSearch}
             >
               검색
             </button>
+          </div>
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+          <div className="container">
+            <div className="notice">
+              <text>공지 사항</text>
+              <div className="noticeAreaLine">
+
+
+              </div>
+            </div>
           </div>
         </div>
       </div>

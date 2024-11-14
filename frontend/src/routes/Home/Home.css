@@ -1,4 +1,4 @@
-.container {
+.homecontainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,18 +39,46 @@
   width: 50rem; /* 800px */
   height: 12.5rem; /* 200px */
   /* background-color: aqua; */
-  border: 1px solid #ddd;
+  border: 1px solid #D9D9D9;
   border-radius: 0.313rem; /* 5px */
 }
 
-.button-container{
-  background-color: #26CFAE;
+.notice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50rem; /* 800px */
+  height: 12.5rem; /* 200px */
+}
+.notice text {
+  align-self: flex-start; /* 텍스트를 왼쪽으로 정렬 */
+  font-weight: bold;
+}
+.noticeAreaLine {
+  flex-direction: column;
+  display: flex;
+  width: 50rem; /* 800px */
+  height: 12.5rem; /* 200px */
+  /* background-color: aqua; */
+  border: 1px solid #D9D9D9;
+  border-radius: 0.313rem; /* 5px */
+  margin-bottom: 1rem;
+}
+
+.home-button-container {
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 14rem;
+  width: 14rem;
+  background-color: #26cfae;
   color: white;
   border: none;
-  border-radius: 0.188rem;
   cursor: pointer;
   font-weight: bold;
   font-size: 1.125rem;
+  margin-bottom: 1rem;
 }
 
 .button-container:hover {
