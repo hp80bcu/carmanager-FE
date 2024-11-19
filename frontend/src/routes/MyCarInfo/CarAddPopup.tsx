@@ -1,29 +1,69 @@
 import React, { useState } from "react";
 import { Button, TextField, Modal, Box, InputAdornment } from "@mui/material";
+import axios from "axios";
+
 
 interface CarAddPopupProps {
   onClose: () => void;
-  onOpenNext: () => void;
+  onOpenNext: (searchResult: string | null) => void;
 }
 
 const CarAddPopup: React.FC<CarAddPopupProps> = ({ onClose, onOpenNext}) => {
   const [carNumber, setCarNumber] = useState<string>(""); 
+  const [searchResult, setSearchResult] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCarNumber(event.target.value);
   };
 
-  const handleSearch = () => {
-    // 검색 로직 구현 (예시: carNumber를 이용하여 검색 API 호출)
-    console.log("검색어:", carNumber);
-    // 실제 검색 로직 구현
+  const handleSearch = async () => {
+    try {
+      setError(null); // 초기화
+      setSearchResult(null); // 초기화
+  
+      if (!carNumber.trim()) {
+        alert("먼저 차량 번호를 검색해주세요.");
+        setError("차량 번호를 입력해주세요.");
+        return;
+      }
+
+      if (!searchResult) {
+        alert("검색 결과가 없습니다.");
+        return;
+      }
+  
+      const response = await axios.get(
+        `http://localhost:8080/cars/search`, // 검색 API URL 확인 필요
+        { params: { carNumber } } // Query string으로 전달
+      );
+  
+      if (response.data) {
+        setSearchResult(`차량 정보: ${response.data.carNumber}`); // 예시: 차량 번호
+        console.log(`검색된 차량: ${response.data.carNumber}`);
+      } else {
+        setSearchResult(null);
+        setError("검색 결과가 없습니다.");
+      }
+    } catch (err) {
+      console.error("검색 실패:", err);
+      setError("검색 중 오류가 발생했습니다.");
+    }
+  };
+  
+  const handleSubmit = () => {
+    if (!searchResult) {
+      alert("검색 결과가 없습니다.");
+      return;
+    }
+  
+    console.log("등록할 차량 번호:", carNumber);
+    console.log("검색 결과:", searchResult);
+  
+    onOpenNext(searchResult); // 부모 컴포넌트로 검색 결과 전달
   };
 
-  const handleSubmit = () => {
-    // 차량 정보 서버 전송 로직 (예시)
-    console.log("차량 번호:", carNumber);
-    onOpenNext(); // 두 번째 팝업 열기
-  };
   return (
     <>
     <Modal

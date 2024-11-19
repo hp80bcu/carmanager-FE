@@ -65,23 +65,33 @@ const UserInfoModify: React.FC = () => {
   };
 
   // 사용자 정보 변경 후 서버에 저장
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (isLoading) {
+      console.warn("이미 처리 중입니다.");
+      return; // 로딩 중이면 중복 실행 방지
+    }
+
+    if (!userInfo.nickname || !userInfo.phoneNumber || !userInfo.address) {
+      alert("입력된 닉네임, 전화번호, 주소가 없습니다.");
+      return;
+    }
+
+    setIsLoading(true); // 로딩 시작
     try {
-      if (userInfo.nickname && userInfo.phoneNumber && userInfo.address) {
-        // 사용자 정보를 백엔드로 전송 (PUT 요청을 사용)
-        const response = await axios.put(
-          `http://localhost:8080/users/${userInfo.userId}`,
-          userInfo
-        );
-        alert("회원 정보가 수정되었습니다.");
-      }
-      else{
-        alert("입력된 닉네임, 전화번호, 주소가 없습니다.");
-      }
+      const response = await axios.put(
+        `http://localhost:8080/users/${userInfo.userId}`,
+        userInfo
+      );
+      alert("회원 정보가 수정되었습니다.");
     } catch (error) {
       console.error("회원 정보 수정 실패:", error);
       alert("회원 정보 수정에 실패했습니다.");
+    } finally {
+      setIsLoading(false); // 로딩 종료
     }
   };
 
@@ -104,7 +114,7 @@ const UserInfoModify: React.FC = () => {
                 id="nickname"
                 name="userId"
                 placeholder={
-                  userInfo.nickname ? String(userInfo.nickname) : "User"
+                  userInfo.nickname ? String(userInfo.nickname) : "닉네임"
                 }
                 value={userInfo.nickname}
                 // onChange={handleChange}
