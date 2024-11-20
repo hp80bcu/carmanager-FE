@@ -28,17 +28,19 @@ const CarAddPopup: React.FC<CarAddPopupProps> = ({ onClose, onOpenNext}) => {
         setError("차량 번호를 입력해주세요.");
         return;
       }
-
-      if (!searchResult) {
-        alert("검색 결과가 없습니다.");
-        return;
-      }
   
-      const response = await axios.get(
-        `http://localhost:8080/cars/search`, // 검색 API URL 확인 필요
-        { params: { carNumber } } // Query string으로 전달
+      const requestBody = { carNumber }; // JSON 데이터로 변환
+  
+      const response = await axios.post(
+        `http://localhost:8080/cars/get-my-car`, // POST 요청
+        requestBody, // Request body로 전달
+        {
+          headers: {
+            "Content-Type": "application/json", // JSON 형식
+          },
+        }
       );
-  
+      console.log(response);
       if (response.data) {
         setSearchResult(`차량 정보: ${response.data.carNumber}`); // 예시: 차량 번호
         console.log(`검색된 차량: ${response.data.carNumber}`);
