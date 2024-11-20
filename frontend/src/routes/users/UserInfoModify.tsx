@@ -76,16 +76,23 @@ const UserInfoModify: React.FC = () => {
     }
 
     if (!userInfo.nickname || !userInfo.phoneNumber || !userInfo.address) {
-      alert("입력된 닉네임, 전화번호, 주소가 없습니다.");
+      alert("모든 필드를 입력해주세요.");
       return;
     }
+    // 변경된 부분만 추출하여 새로운 객체 생성
+    const updatedUserInfo = {
+      nickname: userInfo.nickname,
+      phoneNumber: userInfo.phoneNumber,
+      address: userInfo.address,
+    };
 
     setIsLoading(true); // 로딩 시작
     try {
       const response = await axios.put(
         `http://localhost:8080/users/${userInfo.userId}`,
-        userInfo
+        updatedUserInfo
       );
+      console.log(response.data);
       alert("회원 정보가 수정되었습니다.");
     } catch (error) {
       console.error("회원 정보 수정 실패:", error);
@@ -112,12 +119,12 @@ const UserInfoModify: React.FC = () => {
               <input
                 type="text"
                 id="nickname"
-                name="userId"
+                name="nickname"
                 placeholder={
                   userInfo.nickname ? String(userInfo.nickname) : "닉네임"
                 }
                 value={userInfo.nickname}
-                // onChange={handleChange}
+                onChange={handleChange}
                 style={{ width: "100px" }}
               />
             </div>
@@ -129,7 +136,7 @@ const UserInfoModify: React.FC = () => {
                 name="phoneNumber"
                 placeholder="‘-’ 생략하여 입력"
                 value={userInfo.phoneNumber}
-                // onChange={handleChange}
+                onChange={handleChange}
                 style={{ width: "250px" }}
               />
             </div>
@@ -141,7 +148,7 @@ const UserInfoModify: React.FC = () => {
                 name="address"
                 placeholder="상세 주소를 입력"
                 value={userInfo.address}
-                // onChange={handleChange}
+                onChange={handleChange}
                 style={{ width: "250px" }}
               />
             </div>

@@ -67,6 +67,17 @@ export default function Nav() {
     }
   }, [userId]);
 
+  //판매화면 이동시 userId 존재 유무
+  const handleSaleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault(); // 페이지 이동 방지
+    if (userId) {
+      navigate(`/sale`, { state: { userId } });
+    } else {
+      // userId가 존재하지 않는 경우
+      alert('로그인 후 이용해주세요.');
+    }
+  };
+
   return (
     <>
       <Box
@@ -135,7 +146,7 @@ export default function Nav() {
           </Link>
         </div>
         <div className="item middle">
-          <Link to={"/sale"} className="custom-link">
+          <Link to={"/sale"} className="custom-link" onClick={handleSaleClick}>
             판매
           </Link>
         </div>
