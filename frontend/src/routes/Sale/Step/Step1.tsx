@@ -19,7 +19,7 @@ interface Category {
 
 const Step1: React.FC<Step1Props> = ({ categories }) => {
   return (
-    <Box sx={{ textAlign: "left", marginLeft: "15rem", marginRight: "15rem" }}>
+    <Box sx={{ textAlign: "left", marginLeft: "19rem", marginRight: "15rem" }}>
       {categories.map((category, index) => (
         <Box key={index} sx={{ marginBottom: "30px" }}>
           <Typography variant="h6" fontWeight="bold">

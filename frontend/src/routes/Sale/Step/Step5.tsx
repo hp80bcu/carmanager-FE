@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDropzone } from "react-dropzone";
 import {
   Box,
   Typography,
@@ -6,6 +7,7 @@ import {
   FormControlLabel,
   Checkbox,
   TextField,
+  Button,
 } from "@mui/material";
 import { categories } from "../categories";
 
@@ -18,36 +20,135 @@ interface Step5Props {
   categories: Category[];
 }
 
-interface ImageItem {
-    src: string;
-    alt: string;
-  }
+interface Image {
+  src: string;
+  id: number;
+}
 
-const Step4: React.FC<Step5Props> = ({ categories }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {};
-
+const Step5: React.FC<Step5Props> = ({ categories }) => {
   const [images, setImages] = useState<{
-    내장: FileList | null;
-    외장: FileList | null;
-  }>({ 내장: null, 외장: null });
+    내장: Image[];
+    외장: Image[];
+  }>({ 내장: [], 외장: [] });
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>, type: '내장' | '외장') => {
-    setImages((prev) => ({ ...prev, [type]: event.target.files }));
+  const onDrop = (acceptedFiles: File[], type: "내장" | "외장") => {
+    setImages((prevImages) => ({
+      ...prevImages,
+      [type]: [
+        ...prevImages[type],
+        ...acceptedFiles.map((file, index) => ({
+          src: URL.createObjectURL(file),
+          id: Date.now() + index,
+        })),
+      ],
+    }));
   };
 
-  const handleImageRemove = (type: '내장' | '외장') => {
-    setImages((prev) => ({ ...prev, [type]: null }));
+  const handleRemoveImage = (id: number, type: "내장" | "외장") => {
+    setImages((prevImages) => ({
+      ...prevImages,
+      [type]: prevImages[type].filter((image) => image.id !== id),
+    }));
   };
-  
+
+  // Create separate drop zones for "내장" and "외장"
+  const { getRootProps: getInnerRootProps, getInputProps: getInnerInputProps } =
+    useDropzone({
+      onDrop: (acceptedFiles) => onDrop(acceptedFiles, "내장"),
+      accept: { "image/*": [".jpeg", ".jpg", ".png"] },
+    });
+
+  const { getRootProps: getOuterRootProps, getInputProps: getOuterInputProps } =
+    useDropzone({
+      onDrop: (acceptedFiles) => onDrop(acceptedFiles, "외장"),
+      accept: { "image/*": [".jpeg", ".jpg", ".png"] },
+    });
+
+  const renderImageBoxes = (type: "내장" | "외장") => (
+    <Grid container spacing={4}>
+      {images[type].map((image) => (
+        <Grid item xs={4} key={image.id}>
+          <Box
+            sx={{
+              width: "10rem",
+              height: "10rem",
+              // paddingTop: "100%", // Aspect ratio 1:1
+              position: "relative",
+              background: `url(${image.src})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              borderRadius: "8px",
+              overflow: "hidden",
+              border: 1,
+              borderColor: "grey.500",
+              marginRight: "15rem",
+            }}
+          >
+            <Button
+              onClick={() => handleRemoveImage(image.id, type)}
+              sx={{
+                position: "absolute",
+                right: "0px",
+                background: "transparent",
+                color: "red",
+                fontSize: "12px",
+                zIndex: 10,
+                padding: "1px 1px", // 내부 여백 최소화
+                minWidth: "20px", // 버튼 최소 너비
+                "&:hover": {
+                  background: "darkgrey", // 호버 시 색상 변경
+                },
+              }}
+            >
+              X
+            </Button>
+          </Box>
+        </Grid>
+      ))}
+      <Grid item xs={4}>
+      <div
+          {...(type === "내장"
+            ? getInnerRootProps()
+            : getOuterRootProps())}
+        >
+          <input
+            {...(type === "내장"
+              ? getInnerInputProps()
+              : getOuterInputProps())}
+          />
+          <Box
+            sx={{
+              width: "10rem",
+              height: "10rem",
+              // paddingTop: "100%", // Aspect ratio 1:1
+              backgroundColor: "#e0e0e0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: "8px",
+              border: 1,
+              borderColor: "grey.500",
+              cursor: "pointer",
+              fontSize: "24px",
+              color: "#888",
+            }}
+          >
+            +
+          </Box>
+        </div>
+      </Grid>
+    </Grid>
+  );
+
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        height: "18rem",
-        marginRight: "25rem",
-        marginLeft: "25rem",
+        // height: "30rem",
+        marginRight: "23rem",
+        marginLeft: "23rem",
         padding: 2,
         borderRadius: "16px",
         boxShadow: "0px 0px 15px 5px rgba(0, 0, 0, 0.1)", // Horizontal, Vertical, Blur, Spread, and Color
@@ -64,22 +165,32 @@ const Step4: React.FC<Step5Props> = ({ categories }) => {
           합니다.
         </p>
       </Box>
-      <Box sx={{ marginTop: "1rem", fontWeight:"bold", fontSize:"25px", alignSelf:"start", marginLeft:4 }}>
-        <p>내장 사진</p>
-        <Box>
-        <input type="file" onChange={(e) => handleImageChange(e, '내장')} multiple />
-          {images.내장 &&
-            Array.from(images.내장).map((image, index) => (
-              <div key={index}>
-                <img src={URL.createObjectURL(image)} alt="내장 사진" />
-                <button onClick={() => handleImageRemove('내장')}>삭제</button>
-              </div>
-            ))}
-          <button>+ 사진 추가</button>
+      <Box
+        sx={{
+          marginTop: "1rem",
+          fontWeight: "bold",
+          fontSize: "25px",
+          alignSelf: "start",
+          marginLeft: 4,
+          marginRight: 4,
+        }}
+      >
+        <Box sx={{ width: "100%", mb: 4 }}>
+          <Typography variant="h6" fontWeight="bold" mb={2}>
+            내장 사진
+          </Typography>
+          {renderImageBoxes("내장")}
+        </Box>
+
+        <Box sx={{ width: "100%" }}>
+          <Typography variant="h6" fontWeight="bold" mb={2}>
+            외장 사진
+          </Typography>
+          {renderImageBoxes("외장")}
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default Step4;
+export default Step5;
