@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   InputLabel,
   FormHelperText,
@@ -6,8 +6,9 @@ import {
   MenuItem,
   styled,
 } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import Nav from "../../components/Nav";
+import { carData } from "./carData"; // carData import
 import "./Home.css";
 
 export default function Home() {
@@ -15,13 +16,31 @@ export default function Home() {
   const [model, setModel] = useState("");
   const [detailModel, setDetailModel] = useState("");
 
-  const manufacturers = ["현대", "기아", "BMW", "벤츠"];
-  const models = ["쏘나타", "K5", "5시리즈", "E클래스"];
-  const detailModels = ["2.0", "2.5", "3.0", "3.5"];
+  const handleSearch = async () => {
+    const url = new URL("http://localhost:8080/sells/");
+    url.searchParams.append("company", manufacturer);
+    url.searchParams.append("model", model);
+    url.searchParams.append("detail", detailModel);
 
-  const handleSearch = () => {
-    console.log("검색 조건:", { manufacturer, model, detailModel });
-    // 여기에 실제 검색 로직 구현
+    console.log("전송할 URL:", url.toString());
+
+    try {
+      const response = await fetch(url.toString(), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("서버 요청에 실패했습니다.");
+      }
+
+      const data = await response.json();
+      console.log("응답 데이터:", data);
+    } catch (error) {
+      console.error("요청 중 에러 발생:", error);
+    }
   };
 
   const Container = styled("div")({
@@ -46,7 +65,13 @@ export default function Home() {
         <div className="modelsearch">
           <text>모델 검색</text>
           <div className="modelsearchAreaLine">
-            <Container style={{height:"3rem", marginBottom:"1rem", marginTop:"3rem"}}>
+            <Container
+              style={{
+                height: "3rem",
+                marginBottom: "1rem",
+                marginTop: "3rem",
+              }}
+            >
               <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                 <InputLabel id="manufacturers">제조사</InputLabel>
                 <Select
@@ -56,7 +81,7 @@ export default function Home() {
                   value={manufacturer}
                   onChange={(e) => setManufacturer(e.target.value as string)}
                 >
-                  {manufacturers.map((manufacturer) => (
+                  {Object.keys(carData).map((manufacturer) => (
                     <MenuItem key={manufacturer} value={manufacturer}>
                       {manufacturer}
                     </MenuItem>
@@ -71,28 +96,33 @@ export default function Home() {
                   value={model}
                   label="모델명"
                   onChange={(e) => setModel(e.target.value as string)}
+                  disabled={!manufacturer}
                 >
-                  {models.map((model) => (
-                    <MenuItem key={model} value={model}>
-                      {model}
-                    </MenuItem>
-                  ))}
+                  {manufacturer &&
+                    Object.keys(carData[manufacturer]).map((model) => (
+                      <MenuItem key={model} value={model}>
+                        {model}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
               <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                <InputLabel id="manufacturers">세부모델</InputLabel>
+                <InputLabel id="detailModels">세부모델</InputLabel>
                 <Select
-                  labelId="detailModel"
-                  id="detailModel"
+                  labelId="detailModels"
+                  id="detailModels"
                   value={detailModel}
                   label="세부모델"
                   onChange={(e) => setDetailModel(e.target.value as string)}
+                  disabled={!model}
                 >
-                  {detailModels.map((detailModel) => (
-                    <MenuItem key={detailModel} value={detailModel}>
-                      {detailModel}
-                    </MenuItem>
-                  ))}
+                  {manufacturer &&
+                    model &&
+                    carData[manufacturer][model].map((detailModel) => (
+                      <MenuItem key={detailModel} value={detailModel}>
+                        {detailModel}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Container>
@@ -104,17 +134,10 @@ export default function Home() {
               검색
             </button>
           </div>
-          <p></p>
-          <p></p>
-          <p></p>
-          <p></p>
           <div className="container">
             <div className="notice">
               <text>공지 사항</text>
-              <div className="noticeAreaLine">
-
-
-              </div>
+              <div className="noticeAreaLine"></div>
             </div>
           </div>
         </div>
