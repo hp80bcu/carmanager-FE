@@ -1,17 +1,26 @@
 import React, { useState } from "react";
 import { Button, Modal, Box } from "@mui/material";
 import CarAddPopup_2 from "./CarAddPopup_2";
+import Nav from "../../components/Nav";
 
 interface CarAddPopup_1Props {
   onClose: () => void;
   onReopenFirstPopup: () => void;
   onOpenThirdPopup: () => void;
+  company: string;
+  model: string;
+  detail: string;
+  image: string; // 이미지 데이터를 props로 받음
 }
 
 const CarAddPopup_1: React.FC<CarAddPopup_1Props> = ({
   onClose,
   onReopenFirstPopup,
-  onOpenThirdPopup
+  onOpenThirdPopup,
+  company,
+  model,
+  detail,
+  image, // img 데이터를 props로 받음
 }) => {
   const [isThirdModalOpen, setIsThirdModalOpen] = useState(false);
 
@@ -49,21 +58,37 @@ const CarAddPopup_1: React.FC<CarAddPopup_1Props> = ({
             alignItems: "center",
           }}
         >
-          <img src="/Image/mycar.png" alt="차량이미지"></img>
+          <img
+            src={image}
+            alt="차량이미지"
+            style={{ paddingTop: "2rem", width: "10rem", height: "9rem" }}
+          ></img>
+          <Box
+            sx={{
+              flexDirection: "column",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <p style={{margin:"0", fontSize:"15px"}}>{company}</p>
+            <p style={{margin:"0", fontWeight:"bold", fontSize:"25px"}}>{model}</p>
+            <p style={{margin:"0", fontSize:"15px", color:"grey"}}>{detail}</p>
+          </Box>
+
+          {/* 회색 줄 */}
           <Box
             sx={{
               width: "78%",
               height: "1px",
               backgroundColor: "#D9D9D9",
-              marginTop: "3.5rem",
+              marginTop: "2rem",
             }}
           />
           <p
             style={{
-              fontSize: "13px",
+              fontSize: "15px",
               textAlign: "center",
               margin: "2rem 4px 10px 4px",
-
               fontWeight: "bolder",
             }}
           >
@@ -80,7 +105,7 @@ const CarAddPopup_1: React.FC<CarAddPopup_1Props> = ({
             <Button
               onClick={handleNoClick}
               sx={{
-                height: "50px", 
+                height: "50px",
                 fontSize: "1rem",
                 flex: 1,
                 backgroundColor: "#00BFA5",
@@ -97,7 +122,7 @@ const CarAddPopup_1: React.FC<CarAddPopup_1Props> = ({
             <Button
               onClick={handleSubmit}
               sx={{
-                height: "50px", 
+                height: "50px",
                 fontSize: "1rem",
                 flex: 1,
                 backgroundColor: "#00BFA5",
@@ -105,7 +130,7 @@ const CarAddPopup_1: React.FC<CarAddPopup_1Props> = ({
                 fontWeight: "bold",
                 borderRadius: "0px",
                 "&:hover": {
-                  backgroundColor: "#009688", 
+                  backgroundColor: "#009688",
                 },
               }}
             >

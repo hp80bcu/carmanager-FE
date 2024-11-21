@@ -5,7 +5,7 @@ import axios from "axios";
 
 interface CarAddPopupProps {
   onClose: () => void;
-  onOpenNext: (searchResult: string | null) => void;
+  onOpenNext: (company: string, model: string, detail:string, img:string) => void;
 }
 
 const CarAddPopup: React.FC<CarAddPopupProps> = ({ onClose, onOpenNext}) => {
@@ -40,30 +40,42 @@ const CarAddPopup: React.FC<CarAddPopupProps> = ({ onClose, onOpenNext}) => {
           },
         }
       );
+      const data = response.data.result;
       console.log(response);
       if (response.data) {
-        setSearchResult(`차량 정보: ${response.data.carNumber}`); // 예시: 차량 번호
-        console.log(`검색된 차량: ${response.data.carNumber}`);
+        setSearchResult(`차량 정보: ${data}`);
+        console.log(`차량 정보: ${data}`);
+        console.log(`검색된 차량: ${data.company}, ${data.model}, ${data.detail}, ${data.image}`);
+        handleSubmit(data.company, data.model, data.detail, data.image);
       } else {
         setSearchResult(null);
         setError("검색 결과가 없습니다.");
+        alert("검색 결과가 없습니다.");
       }
     } catch (err) {
       console.error("검색 실패:", err);
       setError("검색 중 오류가 발생했습니다.");
+      alert("검색 결과가 없습니다.");
     }
   };
   
-  const handleSubmit = () => {
-    if (!searchResult) {
+  const handleSubmit = (company: string, model: string, detail:string, image:string) => {
+    console.log(company, model, detail);
+    if (!company || !model || !detail || !image) {
       alert("검색 결과가 없습니다.");
-      return;
+      onOpenNext(company,model,detail,image);
+    }else{
+      onOpenNext(company,model,detail,image); // 부모 컴포넌트로 검색 결과 전달
+      console.log("searchResult: ",searchResult);
     }
   
-    console.log("등록할 차량 번호:", carNumber);
-    console.log("검색 결과:", searchResult);
+    console.log("회사:", company);
+    console.log("모델 :", model);
+    console.log("상세:", detail);
+    console.log("이미지:", image);
+    // console.log("검색 결과:", searchResult);
   
-    onOpenNext(searchResult); // 부모 컴포넌트로 검색 결과 전달
+    
   };
 
   return (
@@ -119,7 +131,6 @@ const CarAddPopup: React.FC<CarAddPopupProps> = ({ onClose, onOpenNext}) => {
                     alignItems: "center",
                     cursor: "pointer",
                   }}
-                  onClick={handleSearch}
                 >
                   <img src="/Image/search.png" height="30" alt="검색"></img>
                 </Box>
@@ -176,7 +187,7 @@ const CarAddPopup: React.FC<CarAddPopupProps> = ({ onClose, onOpenNext}) => {
             취소
           </Button>
           <Button
-            onClick={handleSubmit}
+            onClick={handleSearch}
             sx={{
               height: "50px", 
               fontSize: "1rem", 
