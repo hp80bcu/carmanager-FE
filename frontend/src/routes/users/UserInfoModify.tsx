@@ -7,7 +7,7 @@ import axios from "axios";
 
 interface UserInfo {
   userId: bigint | null;
-  nickname: string;
+  username: string;
   phoneNumber: string;
   address: string;
 }
@@ -19,7 +19,7 @@ const UserInfoModify: React.FC = () => {
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
     userId: null,
-    nickname: "",
+    username: "",
     phoneNumber: "",
     address: "",
   });
@@ -33,7 +33,8 @@ const UserInfoModify: React.FC = () => {
           const response = await axios.get(
             `http://localhost:8080/users/${BigInt(userId)}`
           );
-          setUserInfo(response.data); // 응답 받은 데이터를 상태에 저장
+          setUserInfo(response.data.result); // 응답 받은 데이터를 상태에 저장
+          console.log(response.data.result.username);
         } catch (error) {
           console.error("Error fetching user info:", error);
         }
@@ -75,13 +76,14 @@ const UserInfoModify: React.FC = () => {
       return; // 로딩 중이면 중복 실행 방지
     }
 
-    if (!userInfo.nickname || !userInfo.phoneNumber || !userInfo.address) {
+    if (!userInfo.username || !userInfo.phoneNumber || !userInfo.address) {
       alert("입력된 닉네임, 전화번호, 주소가 없습니다.");
       return;
     }
 
     setIsLoading(true); // 로딩 시작
     try {
+      console.log(userInfo)
       const response = await axios.put(
         `http://localhost:8080/users/${userInfo.userId}`,
         userInfo
@@ -114,10 +116,10 @@ const UserInfoModify: React.FC = () => {
                 id="nickname"
                 name="userId"
                 placeholder={
-                  userInfo.nickname ? String(userInfo.nickname) : "닉네임"
+                  userInfo.username ? String(userInfo.username) : "닉네임"
                 }
-                value={userInfo.nickname}
-                // onChange={handleChange}
+                value={userInfo.username}
+                onChange={handleChange}
                 style={{ width: "100px" }}
               />
             </div>
@@ -129,7 +131,7 @@ const UserInfoModify: React.FC = () => {
                 name="phoneNumber"
                 placeholder="‘-’ 생략하여 입력"
                 value={userInfo.phoneNumber}
-                // onChange={handleChange}
+                onChange={handleChange}
                 style={{ width: "250px" }}
               />
             </div>
@@ -141,7 +143,7 @@ const UserInfoModify: React.FC = () => {
                 name="address"
                 placeholder="상세 주소를 입력"
                 value={userInfo.address}
-                // onChange={handleChange}
+                onChange={handleChange}
                 style={{ width: "250px" }}
               />
             </div>
