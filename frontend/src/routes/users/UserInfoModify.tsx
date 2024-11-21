@@ -7,7 +7,7 @@ import axios from "axios";
 
 interface UserInfo {
   userId: bigint | null;
-  username: string;
+  nickname: string;
   phoneNumber: string;
   address: string;
 }
@@ -19,7 +19,7 @@ const UserInfoModify: React.FC = () => {
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
     userId: null,
-    username: "",
+    nickname: "",
     phoneNumber: "",
     address: "",
   });
@@ -33,8 +33,7 @@ const UserInfoModify: React.FC = () => {
           const response = await axios.get(
             `http://localhost:8080/users/${BigInt(userId)}`
           );
-          setUserInfo(response.data.result); // 응답 받은 데이터를 상태에 저장
-          console.log(response.data.result.username);
+          setUserInfo(response.data); // 응답 받은 데이터를 상태에 저장
         } catch (error) {
           console.error("Error fetching user info:", error);
         }
@@ -76,8 +75,6 @@ const UserInfoModify: React.FC = () => {
       return; // 로딩 중이면 중복 실행 방지
     }
 
-    if (!userInfo.username || !userInfo.phoneNumber || !userInfo.address) {
-      alert("입력된 닉네임, 전화번호, 주소가 없습니다.");
     if (!userInfo.nickname || !userInfo.phoneNumber || !userInfo.address) {
       alert("모든 필드를 입력해주세요.");
       return;
@@ -91,12 +88,16 @@ const UserInfoModify: React.FC = () => {
 
     setIsLoading(true); // 로딩 시작
     try {
-      const response = await axios.put(
-        `http://localhost:8080/users/${userInfo.userId}`,
-        updatedUserInfo
-      );
-      console.log(response.data);
-      alert("회원 정보가 수정되었습니다.");
+      if (userId) {
+        const response = await axios.put(
+          `http://localhost:8080/users/${BigInt(userId)}`, // URL 파라미터 값 사용
+          updatedUserInfo
+        );
+        console.log(response.data);
+        alert("회원 정보가 수정되었습니다.");
+      } else {
+        alert("사용자 ID가 없습니다.");
+      }
     } catch (error) {
       console.error("회원 정보 수정 실패:", error);
       alert("회원 정보 수정에 실패했습니다.");
@@ -104,7 +105,6 @@ const UserInfoModify: React.FC = () => {
       setIsLoading(false); // 로딩 종료
     }
   };
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserInfo({ ...userInfo, [name]: value });
@@ -124,9 +124,9 @@ const UserInfoModify: React.FC = () => {
                 id="nickname"
                 name="nickname"
                 placeholder={
-                  userInfo.username ? String(userInfo.username) : "닉네임"
+                  userInfo.nickname ? String(userInfo.nickname) : "닉네임"
                 }
-                value={userInfo.username}
+                value={userInfo.nickname}
                 onChange={handleChange}
                 style={{ width: "100px" }}
               />
