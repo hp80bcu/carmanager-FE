@@ -11,15 +11,32 @@ const MyCarInfo: React.FC = () => {
   const [isSecondPopupOpen, setIsSecondPopupOpen] = useState(false);
   const [isThirdPopupOpen, setIsThirdPopupOpen] = useState(false);
 
+  // 차량 정보 상태 관리
+  const [carInfo, setCarInfo] = useState({
+    company: "",
+    model: "",
+    detail: "",
+    image: "",
+  });
+
+  // 첫 번째 팝업 열기/닫기
   const handleOpenFirstPopup = () => setIsFirstPopupOpen(true);
   const handleCloseFirstPopup = () => setIsFirstPopupOpen(false);
 
-  const handleOpenSecondPopup = () => {
+  // 두 번째 팝업 열기/닫기
+  const handleOpenSecondPopup = (
+    company: string,
+    model: string,
+    detail: string,
+    image: string
+  ) => {
+    setCarInfo({ company, model, detail, image }); // 차량 정보 저장
     setIsSecondPopupOpen(true);
     setIsFirstPopupOpen(false); // 첫 번째 팝업 닫기
   };
   const handleCloseSecondPopup = () => setIsSecondPopupOpen(false);
 
+  // 세 번째 팝업 열기/닫기
   const handleOpenThirdPopup = () => {
     setIsThirdPopupOpen(true);
     setIsSecondPopupOpen(false); // 두 번째 팝업 닫기
@@ -41,21 +58,26 @@ const MyCarInfo: React.FC = () => {
           차량 추가
         </button>
       </div>
+      {/* 첫 번째 팝업 */}
       {isFirstPopupOpen && (
         <CarAddPopup
           onClose={handleCloseFirstPopup}
           onOpenNext={handleOpenSecondPopup}
         />
       )}
-
+      {/* 두 번째 팝업 */}
       {isSecondPopupOpen && (
         <CarAddPopup_1
-          onClose={handleCloseSecondPopup}
-          onReopenFirstPopup={handleOpenFirstPopup}
-          onOpenThirdPopup={handleOpenThirdPopup}
-        />
+        onClose={handleCloseSecondPopup}
+        onReopenFirstPopup={handleOpenFirstPopup}
+        onOpenThirdPopup={handleOpenThirdPopup}
+        company={carInfo.company} // 차량 정보 전달
+        model={carInfo.model}
+        detail={carInfo.detail}
+        image={carInfo.image}
+      />
       )}
-
+      {/* 세 번째 팝업 */}
       {isThirdPopupOpen && (
         <CarAddPopup_2
           onClose={handleCloseThirdPopup}

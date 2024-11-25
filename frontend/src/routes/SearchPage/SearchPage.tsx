@@ -25,9 +25,10 @@ const SearchPage = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const response = await axios.get("/cars");
-        setCars(response.data.cars);
-        setTotalCars(response.data.totalCars); // 서버에서 총 차량 갯수를 받아서 설정
+        const response = await axios.get("http://localhost:8080/sells/");
+        // setCars(response.data.cars);
+        console.log(response.data.result);
+        setTotalCars(response.data.result[0].howManyCar); // 서버에서 총 차량 갯수를 받아서 설정
       } catch (error) {
         console.error("Error fetching car data:", error);
       }

@@ -33,8 +33,7 @@ const UserInfoModify: React.FC = () => {
           const response = await axios.get(
             `http://localhost:8080/users/${BigInt(userId)}`
           );
-      
-          setUserInfo(response.data); // 응답 받은 데이터를 상태에 저장
+          setUserInfo(response.data.result); // 응답 받은 데이터를 상태에 저장
         } catch (error) {
           console.error("Error fetching user info:", error);
         }
