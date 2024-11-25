@@ -45,7 +45,7 @@ const SearchPage = () => {
       />
       <div>
         {cars.map((car) => (
-          <CarCard key={car.id} {...car} />
+          <CarCard key={car.carId} {...car} />
         ))}
       </div>
     </>

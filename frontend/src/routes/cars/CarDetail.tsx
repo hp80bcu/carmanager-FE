@@ -24,7 +24,7 @@ const CarDetail = () => {
     <div>
       {car ? (
         <>
-          <h2>{car.name}</h2>
+          <h2>{car.carId}</h2>
           {/* ... 다른 상세 정보 */}
         </>
       ) : (

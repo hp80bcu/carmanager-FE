@@ -1,12 +1,12 @@
 export interface CarData {
-    id: string;
-    imageUrl: string;
-    name: string;
+  carId: string;
+  profileImage: string;
+  model: string;
     year: string;
-    mileage: string;
-    location: string;
-    fuelType: string;
+    distance: string;
+    region: string;
+    fuel: string;
     price: string;
+    registDate: string;
     // 추가적인 속성 (예: 연락처, 차량 설명 등)
   }
-  
