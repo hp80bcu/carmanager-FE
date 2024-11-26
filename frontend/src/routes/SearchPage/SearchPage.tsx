@@ -40,33 +40,46 @@ const SearchPage = () => {
   }, []);
 
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      {/* 고정된 SideNav */}
       <SideNav />
-      <SearchBar
-        placeholder={`${totalCars.toLocaleString()} 대의 차량이 등록되어 있습니다!`}
-        onSearch={handleSearch}
-      />
+      {/* 고정된 SearchBar */}
+      <div style={{ position: "sticky", top: 0, zIndex: 10 }}>
+        <SearchBar
+          placeholder={`${totalCars.toLocaleString()} 대의 차량이 등록되어 있습니다!`}
+          onSearch={handleSearch}
+        />
+      </div>
+      {/* 스크롤 가능 영역 */}
       <div
         style={{
-          position: "fixed", // 고정 위치
-          top: "10rem", // 화면 위쪽에서 10rem 떨어진 위치
-          left: "28rem", // 화면 왼쪽에서 5rem 떨어진 위치
-          width: "45rem", // 너비를 지정
-          // height: "calc(100% - 12rem)", // 고정된 높이 (화면에서 일정 부분 차지)
-          overflowY: "auto", // 스크롤 가능
-          background: "#f9f9f9", // 배경색
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // 그림자 효과
-          borderRadius: "8px", // 모서리 둥글게
+          flex: 1, // 남은 공간을 차지하여 스크롤 가능
+          overflowY: "auto", // 세로 스크롤 활성화
+          // position: "fixed",
+          // width: "100%",
+          padding: "1rem",
+          marginLeft:"20rem",
+          marginTop:"2rem",
+          background: "#f9f9f9",
         }}
       >
         {cars && cars.length > 0 ? (
           <Grid
             container
-            spacing={30} // Adjust spacing between items
-            // justifyContent="center"
+            columnSpacing={2} // 좌우 간격
+            rowSpacing={3} // 상하 간격
           >
             {cars.map((car) => (
-              <Grid item key={car.carId} xs={12} sm={6} md={4} lg={3}>
+              <Grid
+                item
+                key={car.carId}
+                xs={12} // 모바일에서 한 줄에 하나씩
+                sm={6} // 태블릿에서 한 줄에 두 개
+                md={4} // 데스크톱에서 한 줄에 세 개
+                lg={3} // 더 큰 화면에서 한 줄에 네 개
+                marginLeft={1}
+                marginRight={1}
+              >
                 <CarCard {...car} />
               </Grid>
             ))}
@@ -77,7 +90,7 @@ const SearchPage = () => {
           </Typography>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

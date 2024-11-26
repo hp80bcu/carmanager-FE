@@ -50,7 +50,7 @@ export default function Nav() {
           setUsername(response.data.username); // 사용자 이름 설정
           setUserId(response.data.userId);
 
-          console.log("Fetched User ID:", response.data.userId); // User ID 확인용 로그
+          console.log("Nav Fetched User ID : ", response.data.userId); // User ID 확인용 로그
         } catch (error) {
           console.error("Failed to fetch user info:", error);
         }

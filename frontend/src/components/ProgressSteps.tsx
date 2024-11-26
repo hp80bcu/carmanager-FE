@@ -12,10 +12,9 @@ const ProgressSteps: React.FC<{ currentStep: number }> = ({ currentStep }) => {
   // steps 배열에서 각 단계의 상태를 설정
   const steps: Step[] = [
     { number: 1, label: "옵션 선택", isActive: currentStep === 0, isPrevious: currentStep > 0 },
-    { number: 2, label: "주행거리 입력", isActive: currentStep === 1, isPrevious: currentStep > 1 },
-    { number: 3, label: "판매금액 입력", isActive: currentStep === 2, isPrevious: currentStep > 2 },
-    { number: 4, label: "차량 설명 입력", isActive: currentStep === 3, isPrevious: currentStep > 3 },
-    { number: 5, label: "차량 사진 업로드", isActive: currentStep === 4, isPrevious: currentStep > 4 },
+    { number: 2, label: "판매금액 입력", isActive: currentStep === 1, isPrevious: currentStep > 1 },
+    { number: 3, label: "차량 설명 입력", isActive: currentStep === 2, isPrevious: currentStep > 2 },
+    { number: 4, label: "차량 사진 업로드", isActive: currentStep === 3, isPrevious: currentStep > 3 },
   ];
 
   return (

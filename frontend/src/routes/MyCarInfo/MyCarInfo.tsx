@@ -5,11 +5,15 @@ import CarAddPopup from "./CarAddPopup";
 import CarAddPopup_1 from "./CarAddPopup_1";
 import CarAddPopup_2 from "./CarAddPopup_2";
 import "./MyCarinfo.css";
+import { useLocation } from "react-router-dom";
 
 const MyCarInfo: React.FC = () => {
   const [isFirstPopupOpen, setIsFirstPopupOpen] = useState(false);
   const [isSecondPopupOpen, setIsSecondPopupOpen] = useState(false);
-  const [isThirdPopupOpen, setIsThirdPopupOpen] = useState(false);
+  // const [isThirdPopupOpen, setIsThirdPopupOpen] = useState(false);
+  
+  
+  // console.log("userId 가져오기: ", userId);
 
   // 차량 정보 상태 관리
   const [carInfo, setCarInfo] = useState({
@@ -37,11 +41,11 @@ const MyCarInfo: React.FC = () => {
   const handleCloseSecondPopup = () => setIsSecondPopupOpen(false);
 
   // 세 번째 팝업 열기/닫기
-  const handleOpenThirdPopup = () => {
-    setIsThirdPopupOpen(true);
-    setIsSecondPopupOpen(false); // 두 번째 팝업 닫기
-  };
-  const handleCloseThirdPopup = () => setIsThirdPopupOpen(false);
+  // const handleOpenThirdPopup = () => {
+  //   setIsThirdPopupOpen(true);
+  //   setIsSecondPopupOpen(false); // 두 번째 팝업 닫기
+  // };
+  // const handleCloseThirdPopup = () => setIsThirdPopupOpen(false);
 
   return (
     <>
@@ -70,7 +74,7 @@ const MyCarInfo: React.FC = () => {
         <CarAddPopup_1
         onClose={handleCloseSecondPopup}
         onReopenFirstPopup={handleOpenFirstPopup}
-        onOpenThirdPopup={handleOpenThirdPopup}
+        // onOpenThirdPopup={handleOpenThirdPopup}
         company={carInfo.company} // 차량 정보 전달
         model={carInfo.model}
         detail={carInfo.detail}
@@ -78,12 +82,12 @@ const MyCarInfo: React.FC = () => {
       />
       )}
       {/* 세 번째 팝업 */}
-      {isThirdPopupOpen && (
+      {/* {isThirdPopupOpen && (
         <CarAddPopup_2
           onClose={handleCloseThirdPopup}
           onReopenFirstPopup={handleOpenFirstPopup}
         />
-      )}
+      )} */}
     </>
   );
 };

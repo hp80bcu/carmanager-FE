@@ -1,12 +1,13 @@
 .car-card {
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 16px;
+  /* padding: 16px; */
+  height: 20rem;
   text-align: center;
-  width: 200px;
-  margin: 10px;
+  width: 15rem;
   cursor: pointer;
   transition: transform 0.2s ease;
+  align-items: center;
 }
 
 .car-card:hover {

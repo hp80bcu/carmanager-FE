@@ -6,7 +6,7 @@ import Nav from "../../components/Nav";
 interface CarAddPopup_1Props {
   onClose: () => void;
   onReopenFirstPopup: () => void;
-  onOpenThirdPopup: () => void;
+  // onOpenThirdPopup: () => void;
   company: string;
   model: string;
   detail: string;
@@ -16,7 +16,7 @@ interface CarAddPopup_1Props {
 const CarAddPopup_1: React.FC<CarAddPopup_1Props> = ({
   onClose,
   onReopenFirstPopup,
-  onOpenThirdPopup,
+  // onOpenThirdPopup,
   company,
   model,
   detail,
@@ -32,7 +32,8 @@ const CarAddPopup_1: React.FC<CarAddPopup_1Props> = ({
   const handleSubmit = () => {
     // 차량 정보 서버 전송 로직 (예시)
     console.log("네(계속 진행)");
-    onOpenThirdPopup(); // 세 번째 팝업 열기
+    // onOpenThirdPopup(); // 세 번째 팝업 열기
+    
     onClose(); // 두 번째 팝업 닫기
   };
   return (

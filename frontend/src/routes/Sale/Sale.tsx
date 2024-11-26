@@ -14,7 +14,6 @@ import Step1 from "./Step/Step1";
 import Step2 from "./Step/Step2";
 import Step3 from "./Step/Step3";
 import Step4 from "./Step/Step4";
-import Step5 from "./Step/Step5";
 
 const Sale: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0); // 화면 상태
@@ -30,7 +29,6 @@ const Sale: React.FC = () => {
     // 네 번째 화면
     <Step4 categories={categories} />,
     // 다섯 번째 화면
-    <Step5 categories={categories} />,
   ];
 
   // "다음" 버튼 클릭 시 화면을 변경하는 함수
@@ -43,7 +41,7 @@ const Sale: React.FC = () => {
     else if (currentStep == 1) {
       console.log("두 번째 화면 다음 버튼");
       // 입력된 주행거리 값을 이용한 처리 (예: 다음 화면으로 이동, 데이터 전송 등)
-      console.log("입력된 주행거리:");
+      console.log("판매 금액 입력: ");
     }
     //세 번째 화면일 때 기능
     else if (currentStep == 2) {
@@ -52,10 +50,6 @@ const Sale: React.FC = () => {
     //네 번째 화면일 때 기능
     else if (currentStep == 3) {
       console.log("네 번째 화면 다음 버튼");
-    }
-    //다섯 번째 화면일 때 기능
-    else if (currentStep == 4) {
-      console.log("다섯 번째 화면 다음 버튼");
     }
     setCurrentStep((prevStep) =>
       Math.min(prevStep + 1, stepsContent.length - 1)
@@ -112,7 +106,7 @@ const Sale: React.FC = () => {
           }}
           onClick={handleNextStep} // 버튼 클릭 시 화면 변경
         >
-          {currentStep === 4 ? "완료" : "다음"}
+          {currentStep === 3 ? "완료" : "다음"}
         </Button>
       </Box>
     </>

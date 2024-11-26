@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Grid,
+  FormControlLabel,
+  Checkbox,
+  TextField,
+} from "@mui/material";
 import { categories } from "../categories";
 
 interface Category {
@@ -7,17 +14,17 @@ interface Category {
   options: string[];
 }
 
-interface Step2Props {
+interface Step3Props {
   categories: Category[];
 }
 
-const Step2: React.FC<Step2Props> = ({ categories }) => {
-  const [distance, setDistance] = useState("");
+const Step2: React.FC<Step3Props> = ({ categories }) => {
+  const [price, setPrice] = useState("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // 숫자만 입력하도록 제한
     if (/^\d+$/.test(event.target.value)) {
-      setDistance(event.target.value);
+      setPrice(event.target.value);
     }
   };
 
@@ -32,20 +39,19 @@ const Step2: React.FC<Step2Props> = ({ categories }) => {
         marginLeft: "25rem",
         padding: 2,
         borderRadius: "16px",
-        // border: "1px solid #D9D9D9",
         boxShadow: "0px 0px 15px 5px rgba(0, 0, 0, 0.1)", // Horizontal, Vertical, Blur, Spread, and Color
       }}
     >
       <Box sx={{ marginTop: "20px" }}>
         <Typography variant="h5" component="h2" style={{ fontWeight: "bold" }}>
-          주행거리 입력
+          판매 금액 입력
         </Typography>
       </Box>
       <Box sx={{ marginTop: "4rem" }}>
         <TextField
           id="outlined-basic"
           variant="outlined"
-          value={distance}
+          value=""
           onChange={handleChange}
           sx={{
             width: "30rem",
@@ -55,14 +61,14 @@ const Step2: React.FC<Step2Props> = ({ categories }) => {
             endAdornment: (
               <Box
                 sx={{
+                  width:"5rem",
                   m: 1,
                   display: "flex",
                   alignItems: "center",
-                  fontWeight: "bold",
                   fontSize: "30px",
                 }}
               >
-                Km
+                만원
               </Box>
             ),
           }}
