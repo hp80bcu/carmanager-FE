@@ -41,6 +41,26 @@ body{
 }
 
 h2{
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   margin-left: 2rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 3rem;
+  margin-top: 1rem;
+}
+
+.add-car-button2 {
+  background-color: #07C8A3; 
+  border: none;
+  color: white;
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
 }

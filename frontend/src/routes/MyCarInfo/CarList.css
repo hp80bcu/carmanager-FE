@@ -1,0 +1,62 @@
+/* 전체 차량 정보 컨테이너 스타일 */
+.car-info-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    margin: 20px;
+    box-sizing: border-box;
+  }
+  
+  .car-info-left {
+    flex: 1;
+    padding-right: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .car-info-left h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .car-info-left p {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .car-info-left p strong {
+    font-size: 18px;
+    color: #000;
+  }
+  
+  .car-info-left p span {
+    color: #666;
+  }
+  
+  .edit-btn {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-btn:hover {
+    background-color: #45a049;
+  }
+  
+  /* 차량 이미지 스타일 */
+  .car-info-right img {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+  }
+  
