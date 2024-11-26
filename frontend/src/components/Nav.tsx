@@ -78,6 +78,16 @@ export default function Nav() {
     }
   };
 
+  const handleMyCarClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault(); // 페이지 이동 방지
+    if (userId) {
+      navigate(`/mycar`, { state: { userId } });
+    } else {
+      // userId가 존재하지 않는 경우
+      alert('로그인 후 이용해주세요.');
+    }
+  };
+
   return (
     <>
       <Box
@@ -156,7 +166,7 @@ export default function Nav() {
           </div>
         </div>
         <div className="item right">
-          <Link to={"/mycar"} className="custom-link">
+          <Link to={"/mycar"} className="custom-link" onClick={handleMyCarClick}>
             <img src="/Image/mycar.png" height="50" alt="내 차량" />
           </Link>
         </div>
