@@ -10,3 +10,5 @@ npm install --save-dev @types/express @types/jsonwebtoken @types/bcryptjs  ->jwt
 npm install @mui/icons-material
 npm install js-cookie
 npm install --save-dev @types/react-dropzone
+npm install dayjs
+npm install react-icons

@@ -2,6 +2,11 @@ body{
   margin-left: 0;
 }
 
+h2{
+  /* margin-top: 2rem; */
+  margin-left: 2rem;
+}
+
 .my-car-container {
   text-align: left;
   padding: 20px;
@@ -40,10 +45,7 @@ body{
   color: black;
 }
 
-h2{
-  /* margin-top: 2rem; */
-  margin-left: 2rem;
-}
+
 
 .button-container {
   display: flex;

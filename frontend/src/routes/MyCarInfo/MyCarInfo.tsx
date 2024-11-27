@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
 import axios from "axios";
 import Nav from "../../components/Nav";
 import CarAddPopup from "./CarAddPopup";
@@ -6,6 +7,7 @@ import CarAddPopup_1 from "./CarAddPopup_1";
 import "./MyCarinfo.css";
 import "./CarList.css";
 import { useLocation } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
 
 const MyCarInfo: React.FC = () => {
   const [isFirstPopupOpen, setIsFirstPopupOpen] = useState(false);
@@ -61,6 +63,16 @@ const MyCarInfo: React.FC = () => {
   };
   const handleCloseSecondPopup = () => setIsSecondPopupOpen(false);
 
+  // 정비 이력 버튼 클릭
+  const handleMaintenancePopup = () => {
+    console.log("정비 이력 버튼 클릭!!");
+  };
+
+  // 휴지통(차량 삭제 버튼)
+  const handleDeleteButton = () => {
+    console.log("삭제 버튼 클릭!!");
+  };
+
   return (
     <>
       <Nav />
@@ -71,20 +83,88 @@ const MyCarInfo: React.FC = () => {
               차량 추가
             </button>
           </div>
-          <h2>{username} 의 차량 정보</h2>
+          <h2 className="username-container">
+            <span className="username-highlight">{username}</span>{" "}
+            <span className="username-highlight2">님의 차량 정보</span>
+          </h2>
           {userCars.map((car, index) => (
             <div key={index} className="car-info-container">
-              <div className="car-info-left">
-                <h3>{car.model}</h3>
-                <p>기아 {car.model}</p>
-                <p>{car.engine} HEV 노블레스</p>
-                <p>배기량: {car.engine} cc</p>
-                <p>연료: 하이브리드({car.fuelType})</p>
-                <p>차량 등록일: {car.registrationDate}</p>
-                <p>주행 거리: {car.mileage}</p>
-              </div>
-              <div className="car-info-right">
-                <img src={car.imageUrl} alt="Car" />
+              <div className="car-info-rowcontainer">
+                <div className="car-info-left">
+                  <p style={{ fontSize: "18px" }}>{car.company}</p> {/*회사*/}
+                  <p style={{ fontWeight: "bold", fontSize: "30px" }}>
+                    {car.model}
+                  </p>{" "}
+                  {/*모델*/}
+                  <p style={{ fontSize: "23px", color: "#7A7A7A" }}>
+                    {car.modelDetail}
+                  </p>{" "}
+                  {/*모델디테일*/}
+                  {/*date, distance, color*/}
+                  <p>
+                    <span className="orange-bold-style">
+                      {car.date.split("-")[0]}
+                    </span>
+                    {"년형"} | {"주행거리"}
+                    <span className="orange-bold-style">
+                      {Number(car.distance).toLocaleString()}km
+                    </span>{" "}
+                    | <span className="orange-bold-style">{car.color}</span>
+                  </p>
+                  <div style={{ marginTop: "40px" }}>
+                    <button
+                      className="add-car-button2"
+                      onClick={handleMaintenancePopup}
+                    >
+                      정비 이력
+                    </button>
+                  </div>
+                </div>
+                <div className="car-info-center">
+                  <p className="info-row">
+                    <span>최초등록일</span>{" "}
+                    <span className="orange-bold-style">
+                      {dayjs(car.firstRegisterDate).format("YYYY년 MM월 DD일")}
+                    </span>
+                  </p>
+
+                  <div className="row-hipen-style"></div>
+
+                  <p className="info-row">
+                    <span>배기량</span>{" "}
+                    <span className="orange-bold-style">
+                      {Number(car.displacement).toLocaleString()} cc
+                    </span>
+                  </p>
+
+                  <div className="row-hipen-style"></div>
+
+                  <p className="info-row">
+                    <span>연료</span>{" "}
+                    <span className="orange-bold-style">{car.fuel}</span>
+                  </p>
+
+                  <div className="row-hipen-style"></div>
+
+                  <p
+                    style={{ marginTop: "10px", marginBottom: "5px" }}
+                    className="info-row"
+                  >
+                    <span>변속기</span>{" "}
+                    <span className="orange-bold-style">{car.shift}</span>
+                  </p>
+                </div>
+                <div className="car-info-right">
+                  <img src={car.image} alt="Car" />
+                </div>
+                <div>
+                  <button
+                    className="car-info-trashbutton"
+                    onClick={handleDeleteButton}
+                  >
+                    <FaTrash size={20} />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
