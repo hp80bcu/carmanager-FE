@@ -15,9 +15,16 @@ export default function Home() {
 
   const handleSearch = () => {
     const url = new URLSearchParams();
+
     url.append("company", manufacturer);
-    url.append("model", model);
-    url.append("detail", detailModel);
+
+    if(model){
+      url.append("model", model);  
+    }
+    if(detailModel){
+      url.append("detail", detailModel);
+    }
+    
 
     console.log("전송할 URL:", `/searchpage?${url.toString()}`);
 

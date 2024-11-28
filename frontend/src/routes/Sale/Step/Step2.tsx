@@ -18,7 +18,7 @@ const Step2: React.FC<Step2Props> = ({ selectedOptions, price, updatePrice }) =>
       updatePrice(event.target.value); // 부모 상태 업데이트
     }
   };
-  console.log(selectedOptions);
+  // console.log(selectedOptions);
   return (
     <Box
       sx={{

@@ -139,21 +139,29 @@ const Step4: React.FC<Step5Props> = ({ categories, selectedOptions, price, descr
 
   const handleSubmit = async () => {
     const formData = new FormData();
-    formData.append("carId", "123"); // 예시 carId (실제 값으로 변경 필요)
-    formData.append("carNumber", "XYZ1234"); // 예시 carNumber (실제 값으로 변경 필요)
-    formData.append("price", price);
-    formData.append("description", description);
-
-    // 선택된 옵션들 추가
-    selectedOptions.forEach((option) => formData.append("Options", option));
-
-    // 파일 추가
-    pictures.forEach((picture) => formData.append("Pictures", picture));
-
+  
+    // 1. `sellAddRequestDto`의 나머지 데이터를 JSON 문자열로 변환하여 `FormData`에 추가
+    const requestData = {
+      carId: 2, // 예시 carId (실제 값으로 변경 필요)
+      carNumber: "236나3604", // 예시 carNumber (실제 값으로 변경 필요)
+      price: price,
+      description: description,
+      options: selectedOptions, // 배열 형태로 전송
+    };
+  
+    formData.append("sellAddRequestDto", JSON.stringify(requestData));
+  
+    // 2. `pictures` 배열을 `FormData`에 추가
+    pictures.forEach((picture) => formData.append("pictures", picture));
+  
+    // `formData` 로그 확인
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
+  
     try {
       const response = await axios.post("http://localhost:8080/sells", formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
         },
       });
       console.log("서버 응답:", response.data);
@@ -161,7 +169,7 @@ const Step4: React.FC<Step5Props> = ({ categories, selectedOptions, price, descr
       console.error("에러 발생:", error);
     }
   };
-
+  
   return (
     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", padding: 2 }}>
       <Typography variant="h5" component="h2" sx={{ fontWeight: "bold", marginBottom: "1rem" }}>
@@ -191,4 +199,3 @@ const Step4: React.FC<Step5Props> = ({ categories, selectedOptions, price, descr
 };
 
 export default Step4;
-

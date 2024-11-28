@@ -21,7 +21,11 @@ const SearchPage = () => {
     const fetchData = async () => {
       try {
         // detail 값이 있는지 확인하여 URL 구성
-        let url = `http://localhost:8080/sells/?company=${company}`;
+        let url = `http://localhost:8080/sells`;
+
+        if(company){
+          url += `?company=${company}`;
+        }
         
         if (model) {
           url += `&model=${model}`;
