@@ -8,14 +8,14 @@ interface Category {
 
 interface Step2Props {
   selectedOptions: string[]; // 추가된 props
-  price: string;
-  updatePrice: (newPrice: string) => void; // 추가된 props
+  price: number;
+  updatePrice: (newPrice: number) => void; // 추가된 props
 }
 
 const Step2: React.FC<Step2Props> = ({ selectedOptions, price, updatePrice }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (/^\d*$/.test(event.target.value)) {
-      updatePrice(event.target.value); // 부모 상태 업데이트
+      updatePrice(Number(event.target.value)); // 부모 상태 업데이트
     }
   };
   // console.log(selectedOptions);
@@ -42,7 +42,7 @@ const Step2: React.FC<Step2Props> = ({ selectedOptions, price, updatePrice }) =>
         <TextField
           id="outlined-basic"
           variant="outlined"
-          value={price}
+          value={price.toString()}
           onChange={handleChange}
           sx={{
             width: "30rem",

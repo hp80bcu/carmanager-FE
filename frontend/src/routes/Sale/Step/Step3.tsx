@@ -9,7 +9,7 @@ interface Category {
 interface Step4Props {
   categories: Category[];
   selectedOptions: string[];
-  price: string;
+  price: number;
   description: string;
   updateDescription: (newDescription: string) => void;
 }

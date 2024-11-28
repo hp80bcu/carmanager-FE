@@ -13,7 +13,7 @@ import axios from "axios";
 const Sale: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]); // Step1의 옵션 선택
-  const [price, setPrice] = useState<string>(""); // Step2의 판매 금액
+  const [price, setPrice] = useState<number>(0); // Step2의 판매 금액
   const [description, setDescription] = useState<string>(""); // Step3의 차량 설명
   const [pictures, setPictures] = useState<File[]>([]); // Step4의 차량 이미지
 
@@ -26,7 +26,7 @@ const Sale: React.FC = () => {
     setSelectedOptions(options);
   };
 
-  const updatePrice = (newPrice: string) => {
+  const updatePrice = (newPrice: number) => {
     setPrice(newPrice);
   };
 

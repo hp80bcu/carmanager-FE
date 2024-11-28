@@ -11,7 +11,7 @@ interface Category {
 interface Step5Props {
   categories: Category[];
   selectedOptions: string[];
-  price: string;
+  price: number;
   description: string;
   setPictures: (pictures: File[]) => void;
 }
