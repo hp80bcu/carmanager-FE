@@ -83,6 +83,7 @@
 
 .car-info-right {
   margin-right: 50px;
+  width: 300px;
 }
 /* 차량 이미지 스타일 */
 .car-info-right img {

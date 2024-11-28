@@ -9,6 +9,8 @@ import MyCarInfo from "./routes/MyCarInfo/MyCarInfo";
 import Bookmark from "./routes/Bookmark/Bookmark";
 import UserInfoModify from "./routes/users/UserInfoModify";
 import Login from "./routes/users/login";
+import Sale2 from "./routes/Sale/Sale2";
+import CarDetailPage from "./routes/cars/CarDetailPage";
 
 
 
@@ -21,8 +23,9 @@ function App() {
           <Route path="/searchpage" element={<SearchPage />} />
           <Route path="/purchase" element={<Purchase />} />
           <Route path="/sale/:carId" element={<Sale />} />
+          <Route path="/sale" element={<Sale2 />} />
           <Route path="/mycar" element={<MyCarInfo />} />
-          {/* <Route path="/mycarRegister" element={<CarRegister />} /> */}
+          <Route path="/cars/:carId" element={<CarDetailPage />} />
           <Route path="/bookmark" element={<Bookmark />} />
           <Route path="/users/:userId" element={<UserInfoModify />} /> {/* 수정된 부분 */}
           <Route path="/users/login" element={<Login />} />

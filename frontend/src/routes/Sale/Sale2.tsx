@@ -2,16 +2,12 @@ import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import axios from "axios";
 import Nav from "../../components/Nav";
-import CarAddPopup from "./CarAddPopup";
-import CarAddPopup_1 from "./CarAddPopup_1";
-import "./MyCarinfo.css";
-import "./CarList.css";
+import "../MyCarInfo/MyCarinfo.css";
+import "../MyCarInfo/CarList.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 
-const MyCarInfo: React.FC = () => {
-  const [isFirstPopupOpen, setIsFirstPopupOpen] = useState(false);
-  const [isSecondPopupOpen, setIsSecondPopupOpen] = useState(false);
+const Sale2: React.FC = () => {
   const navigate = useNavigate();
   // 차량 정보 상태 관리
   const [carInfo, setCarInfo] = useState({
@@ -26,14 +22,34 @@ const MyCarInfo: React.FC = () => {
   const [userCars, setUserCars] = useState<any[]>([]);
   const location = useLocation();
   const { userId, username } = location.state || {};
-  // console.log("username: ", username);
-  // console.log("userId: ", userId);
+  // alert이 이미 표시되었는지 여부를 추적하는 상태
+  const [alertShown, setAlertShown] = useState(false);
+
   // 백엔드에서 차량 목록 조회
   useEffect(() => {
     if (userId) {
       fetchCarList(); // 차량 목록 조회 함수 호출
     }
   }, [userId]);
+
+  // 화면이 렌더링된 후, userCars.length가 0일 때 alert을 띄운다
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (userCars.length === 0 && !alertShown) {
+        const confirmAction = window.confirm(
+          "차량이 없습니다. 차량을 추가하시겠습니까?"
+        );
+        if (confirmAction) {
+          navigate("/mycar"); // 차량 추가 페이지로 이동
+        }
+        setAlertShown(true); // alert을 표시한 후 상태 업데이트
+      }
+    }, 100); // ms 후에 로직 실행
+  
+    // Cleanup timer on component unmount or when dependencies change
+    return () => clearTimeout(timer);
+  }, [userCars, alertShown, navigate]); // userCars 또는 alertShown이 변경될 때 실행
+
 
   // 차량 목록 조회 함수
   const fetchCarList = () => {
@@ -48,11 +64,6 @@ const MyCarInfo: React.FC = () => {
       });
   };
 
-  // 정비 이력 버튼
-  const handleMaintenanceClick = () => {
-    console.log("정비 이력 버튼 클릭!!");
-  };
-
   // 판매 등록 버튼
   const handleSaleClick = (carId: BigInt) => {
     console.log("판매 등록 버튼 클릭!!");
@@ -60,44 +71,17 @@ const MyCarInfo: React.FC = () => {
     navigate(`/sale/${carId}`);
   };
 
-  // 첫 번째 팝업 열기/닫기
-  const handleOpenFirstPopup = () => setIsFirstPopupOpen(true);
-  const handleCloseFirstPopup = () => setIsFirstPopupOpen(false);
-
-  // 두 번째 팝업 열기/닫기
-  const handleOpenSecondPopup = (
-    carNumber: string,
-    company: string,
-    model: string,
-    detail: string,
-    image: string
-  ) => {
-    setCarInfo({ carNumber, company, model, detail, image });
-    setIsSecondPopupOpen(true);
-    setIsFirstPopupOpen(false);
-  };
-
-  const handleCloseSecondPopup = () => {
-    setIsSecondPopupOpen(false);
-    fetchCarList(); // 두 번째 팝업 닫을 때 차량 목록 갱신
-  };
-
   return (
     <>
       <Nav />
       {userCars.length > 0 ? (
         <div>
-          <div className="button-container">
-            <button className="add-car-button2" onClick={handleOpenFirstPopup}>
-              차량 추가
-            </button>
-          </div>
           <h2 className="username-container">
             <span className="username-highlight">{username}</span>{" "}
             <span className="username-highlight2">님의 차량 정보</span>
           </h2>
           {userCars.map((car, index) => (
-            <div key={index} className="car-info-container" style={{marginBottom:"1rem"}}>
+            <div key={index} className="car-info-container">
               <div className="car-info-rowcontainer">
                 <div className="car-info-left">
                   <p style={{ fontSize: "18px" }}>{car.company}</p>
@@ -120,13 +104,6 @@ const MyCarInfo: React.FC = () => {
                   <div style={{ marginTop: "40px" }}>
                     <button
                       className="add-car-button2"
-                      onClick={handleMaintenanceClick}
-                    >
-                      정비 이력
-                    </button>
-                    <button
-                      className="add-car-button2"
-                      style={{ marginLeft: "1rem" }}
                       onClick={() => handleSaleClick(car.carId)}
                     >
                       판매 등록
@@ -192,33 +169,12 @@ const MyCarInfo: React.FC = () => {
             <p style={{ color: "#7A7A7A" }}>
               차량을 추가하시면 다양한 정보를 한 눈에 볼 수 있습니다.
             </p>
-            <button className="add-car-button" onClick={handleOpenFirstPopup}>
-              차량 추가
-            </button>
+            <button className="add-car-button">차량 추가</button>
           </div>
         </div>
-      )}
-
-      {/* 첫 번째 팝업 */}
-      {isFirstPopupOpen && (
-        <CarAddPopup
-          onClose={handleCloseFirstPopup}
-          onOpenNext={handleOpenSecondPopup}
-          userId={userId}
-        />
-      )}
-
-      {/* 두 번째 팝업 */}
-      {isSecondPopupOpen && (
-        <CarAddPopup_1
-          onClose={handleCloseSecondPopup}
-          onReopenFirstPopup={handleOpenFirstPopup}
-          {...carInfo}
-          userId={userId}
-        />
       )}
     </>
   );
 };
 
-export default MyCarInfo;
+export default Sale2;
