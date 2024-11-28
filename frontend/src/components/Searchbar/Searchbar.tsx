@@ -11,7 +11,9 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
+    const url = new URL("http://localhost:8080/sells/");
+    url.searchParams.append("model", searchTerm);
     // 검색어를 이용한 실제 검색 로직 수행
     onSearch(searchTerm);
     console.log("검색어:", searchTerm);

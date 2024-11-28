@@ -1,12 +1,7 @@
 import React, { useState } from "react";
-import {
-  InputLabel,
-  FormHelperText,
-  FormControl,
-  MenuItem,
-  styled,
-} from "@mui/material";
+import { InputLabel, FormControl, MenuItem, styled } from "@mui/material";
 import Select from "@mui/material/Select";
+import { useNavigate } from "react-router-dom"; // 추가
 import Nav from "../../components/Nav";
 import { carData } from "./carData"; // carData import
 import "./Home.css";
@@ -16,31 +11,18 @@ export default function Home() {
   const [model, setModel] = useState("");
   const [detailModel, setDetailModel] = useState("");
 
-  const handleSearch = async () => {
-    const url = new URL("http://localhost:8080/sells/");
-    url.searchParams.append("company", manufacturer);
-    url.searchParams.append("model", model);
-    url.searchParams.append("detail", detailModel);
+  const navigate = useNavigate(); // 네비게이트 함수 추가
 
-    console.log("전송할 URL:", url.toString());
+  const handleSearch = () => {
+    const url = new URLSearchParams();
+    url.append("company", manufacturer);
+    url.append("model", model);
+    url.append("detail", detailModel);
 
-    try {
-      const response = await fetch(url.toString(), {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    console.log("전송할 URL:", `/searchpage?${url.toString()}`);
 
-      if (!response.ok) {
-        throw new Error("서버 요청에 실패했습니다.");
-      }
-
-      const data = await response.json();
-      console.log("응답 데이터:", data);
-    } catch (error) {
-      console.error("요청 중 에러 발생:", error);
-    }
+    // 검색 결과 페이지로 이동
+    navigate(`/searchpage?${url.toString()}`);
   };
 
   const Container = styled("div")({
@@ -133,12 +115,6 @@ export default function Home() {
             >
               검색
             </button>
-          </div>
-          <div className="container">
-            <div className="notice">
-              <text>공지 사항</text>
-              <div className="noticeAreaLine"></div>
-            </div>
           </div>
         </div>
       </div>
