@@ -6,6 +6,7 @@
   background-color: #eeffee;
   box-sizing: border-box;
   width: 100vw;
+  margin-bottom: "1rem";
 }
 
 .username-container {

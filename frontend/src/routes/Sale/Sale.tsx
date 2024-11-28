@@ -7,6 +7,7 @@ import Step1 from "./Step/Step1";
 import Step2 from "./Step/Step2";
 import Step3 from "./Step/Step3";
 import Step4 from "./Step/Step4";
+import { useParams } from "react-router-dom";
 
 const Sale: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -14,6 +15,9 @@ const Sale: React.FC = () => {
   const [price, setPrice] = useState<string>(""); // Step2의 판매 금액
   const [description, setDescription] = useState<string>(""); // Step3의 차량 설명
   const [pictures, setPictures] = useState<File[]>([]);
+
+  const { carId } = useParams();
+  console.log("Received carId: ", carId);
 
   const updateSelectedOptions = (options: string[]) => {
     setSelectedOptions(options);
@@ -28,20 +32,35 @@ const Sale: React.FC = () => {
   };
 
   const stepsContent = [
-    <Step1 categories={categories} updateSelectedOptions={updateSelectedOptions} />,
-    <Step2 selectedOptions={selectedOptions} price={price} updatePrice={updatePrice} />,
-    <Step3 selectedOptions={selectedOptions} price={price} description={description} updateDescription={updateDescription} categories={[]} />,
-    <Step4 
-      selectedOptions={selectedOptions} 
-      price={price} 
-      description={description} 
-      categories={[]} 
-      setPictures={setPictures}  // setPictures 함수 전달
+    <Step1
+      categories={categories}
+      updateSelectedOptions={updateSelectedOptions}
+    />,
+    <Step2
+      selectedOptions={selectedOptions}
+      price={price}
+      updatePrice={updatePrice}
+    />,
+    <Step3
+      selectedOptions={selectedOptions}
+      price={price}
+      description={description}
+      updateDescription={updateDescription}
+      categories={[]}
+    />,
+    <Step4
+      selectedOptions={selectedOptions}
+      price={price}
+      description={description}
+      categories={[]}
+      setPictures={setPictures} // setPictures 함수 전달
     />,
   ];
 
   const handleNextStep = () => {
-    setCurrentStep((prevStep) => Math.min(prevStep + 1, stepsContent.length - 1));
+    setCurrentStep((prevStep) =>
+      Math.min(prevStep + 1, stepsContent.length - 1)
+    );
   };
 
   const handlePreStep = () => {
@@ -53,7 +72,9 @@ const Sale: React.FC = () => {
       <Nav />
       <ProgressSteps currentStep={currentStep} />
       {stepsContent[currentStep]}
-      <Box sx={{ textAlign: "center", marginTop: "30px", marginBottom: "30px" }}>
+      <Box
+        sx={{ textAlign: "center", marginTop: "30px", marginBottom: "30px" }}
+      >
         {currentStep > 0 && (
           <Button
             variant="contained"

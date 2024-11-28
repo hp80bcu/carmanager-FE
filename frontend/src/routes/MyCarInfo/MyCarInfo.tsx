@@ -6,13 +6,13 @@ import CarAddPopup from "./CarAddPopup";
 import CarAddPopup_1 from "./CarAddPopup_1";
 import "./MyCarinfo.css";
 import "./CarList.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 
 const MyCarInfo: React.FC = () => {
   const [isFirstPopupOpen, setIsFirstPopupOpen] = useState(false);
   const [isSecondPopupOpen, setIsSecondPopupOpen] = useState(false);
-  
+  const navigate = useNavigate();
   // 차량 정보 상태 관리
   const [carInfo, setCarInfo] = useState({
     carNumber: "",
@@ -40,10 +40,24 @@ const MyCarInfo: React.FC = () => {
       .get(`http://localhost:8080/cars/${BigInt(userId)}`)
       .then((response) => {
         setUserCars(response.data.result || []);
+        console.log("차량 정보: ", response.data.result);
       })
       .catch((error) => {
         console.error("차량 목록 조회 오류:", error);
       });
+  };
+
+  // 정비 이력 버튼
+  const handleMaintenanceClick = () => {
+    console.log("정비 이력 버튼 클릭!!");
+
+  }
+
+  // 판매 등록 버튼
+  const handleSaleClick = (carId: BigInt) => {
+    console.log("판매 등록 버튼 클릭!!");
+    console.log("carId: ", carId);
+    navigate(`/sale/${carId}`);
   };
 
   // 첫 번째 팝업 열기/닫기
@@ -106,9 +120,16 @@ const MyCarInfo: React.FC = () => {
                   <div style={{ marginTop: "40px" }}>
                     <button
                       className="add-car-button2"
-                      onClick={() => console.log("정비 이력 버튼 클릭!!")}
+                      onClick={handleMaintenanceClick}
                     >
                       정비 이력
+                    </button>
+                    <button
+                      className="add-car-button2"
+                      style={{marginLeft:"1rem"}}
+                      onClick={() => handleSaleClick(car.carId)}
+                    >
+                      판매 등록
                     </button>
                   </div>
                 </div>
