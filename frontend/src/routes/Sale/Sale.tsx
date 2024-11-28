@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button } from "@mui/material";
 import Nav from "../../components/Nav";
 import ProgressSteps from "../../components/ProgressSteps";
@@ -7,7 +7,7 @@ import Step1 from "./Step/Step1";
 import Step2 from "./Step/Step2";
 import Step3 from "./Step/Step3";
 import Step4 from "./Step/Step4";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const Sale: React.FC = () => {
@@ -18,10 +18,8 @@ const Sale: React.FC = () => {
   const [pictures, setPictures] = useState<File[]>([]); // Step4의 차량 이미지
 
   const { carId } = useParams();
-  console.log("Received carId: ", carId);
-
   const navigate = useNavigate();
-  
+
   const updateSelectedOptions = (options: string[]) => {
     setSelectedOptions(options);
   };
@@ -101,7 +99,7 @@ const Sale: React.FC = () => {
 
   const handleSubmit = async () => {
     const formData = new FormData();
-    
+
     // 1. `sellAddRequestDto`의 나머지 데이터를 JSON 문자열로 변환하여 `FormData`에 추가
     const requestData = {
       carId: carId, // 예시 carId (실제 값으로 변경 필요)
@@ -135,9 +133,8 @@ const Sale: React.FC = () => {
       console.error("에러 발생:", error);
       alert("판매 등록에 실패 하였습니다!");
     }
-    
   };
-  
+
   return (
     <>
       <Nav />

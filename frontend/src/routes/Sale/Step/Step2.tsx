@@ -42,7 +42,7 @@ const Step2: React.FC<Step2Props> = ({ selectedOptions, price, updatePrice }) =>
         <TextField
           id="outlined-basic"
           variant="outlined"
-          value={price.toString()}
+          value={price}
           onChange={handleChange}
           sx={{
             width: "30rem",

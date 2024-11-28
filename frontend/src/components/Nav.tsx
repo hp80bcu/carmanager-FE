@@ -179,19 +179,6 @@ export default function Nav() {
                 </Link>
               </div>
           )}
-        {/* <div className="item right">
-          <Button
-            onClick={() => {
-              if (userId) {
-                navigate(`/users/${userId}`, { state: { userId } });
-              }
-            }}
-            className="custom-link"
-          >
-            <img src="/Image/myinfo.png" height="50" alt="내 정보" />
-          </Button>
-        </div> */}
-
         <div className="item rightend">
           <Link to={"/bookmark"} className="custom-link">
             <img src="/Image/bookmark.png" height="50" alt="찜 목록" />

@@ -26,7 +26,8 @@ const MyCarInfo: React.FC = () => {
   const [userCars, setUserCars] = useState<any[]>([]);
   const location = useLocation();
   const { userId, username } = location.state || {};
-
+  // console.log("username: ", username);
+  // console.log("userId: ", userId);
   // 백엔드에서 차량 목록 조회
   useEffect(() => {
     if (userId) {
@@ -50,8 +51,7 @@ const MyCarInfo: React.FC = () => {
   // 정비 이력 버튼
   const handleMaintenanceClick = () => {
     console.log("정비 이력 버튼 클릭!!");
-
-  }
+  };
 
   // 판매 등록 버튼
   const handleSaleClick = (carId: BigInt) => {
@@ -126,7 +126,7 @@ const MyCarInfo: React.FC = () => {
                     </button>
                     <button
                       className="add-car-button2"
-                      style={{marginLeft:"1rem"}}
+                      style={{ marginLeft: "1rem" }}
                       onClick={() => handleSaleClick(car.carId)}
                     >
                       판매 등록
@@ -159,7 +159,10 @@ const MyCarInfo: React.FC = () => {
 
                   <div className="row-hipen-style"></div>
 
-                  <p className="info-row" style={{ marginTop: "10px", marginBottom: "5px" }}>
+                  <p
+                    className="info-row"
+                    style={{ marginTop: "10px", marginBottom: "5px" }}
+                  >
                     <span>변속기</span>{" "}
                     <span className="orange-bold-style">{car.shift}</span>
                   </p>
