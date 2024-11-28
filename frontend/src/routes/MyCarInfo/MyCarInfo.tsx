@@ -12,6 +12,7 @@ import { FaTrash } from "react-icons/fa";
 const MyCarInfo: React.FC = () => {
   const [isFirstPopupOpen, setIsFirstPopupOpen] = useState(false);
   const [isSecondPopupOpen, setIsSecondPopupOpen] = useState(false);
+  
   // 차량 정보 상태 관리
   const [carInfo, setCarInfo] = useState({
     carNumber: "",
@@ -26,24 +27,24 @@ const MyCarInfo: React.FC = () => {
   const location = useLocation();
   const { userId, username } = location.state || {};
 
-  // 백엔드에서 차량 목록을 조회
+  // 백엔드에서 차량 목록 조회
   useEffect(() => {
     if (userId) {
-      axios
-        .get(`http://localhost:8080/cars/${BigInt(userId)}`) // 차량 목록 API 호출
-        .then((response) => {
-          setUserCars(response.data.result || []); // 차량 리스트 상태 업데이트
-          console.log(
-            "response.data.result.length: ",
-            response.data.result.length
-          );
-          console.log("response.data.result: ", response.data.result);
-        })
-        .catch((error) => {
-          console.error("차량 목록 조회 오류:", error);
-        });
+      fetchCarList(); // 차량 목록 조회 함수 호출
     }
   }, [userId]);
+
+  // 차량 목록 조회 함수
+  const fetchCarList = () => {
+    axios
+      .get(`http://localhost:8080/cars/${BigInt(userId)}`)
+      .then((response) => {
+        setUserCars(response.data.result || []);
+      })
+      .catch((error) => {
+        console.error("차량 목록 조회 오류:", error);
+      });
+  };
 
   // 첫 번째 팝업 열기/닫기
   const handleOpenFirstPopup = () => setIsFirstPopupOpen(true);
@@ -57,20 +58,14 @@ const MyCarInfo: React.FC = () => {
     detail: string,
     image: string
   ) => {
-    setCarInfo({ carNumber, company, model, detail, image }); // 차량 정보 저장
+    setCarInfo({ carNumber, company, model, detail, image });
     setIsSecondPopupOpen(true);
-    setIsFirstPopupOpen(false); // 첫 번째 팝업 닫기
-  };
-  const handleCloseSecondPopup = () => setIsSecondPopupOpen(false);
-
-  // 정비 이력 버튼 클릭
-  const handleMaintenancePopup = () => {
-    console.log("정비 이력 버튼 클릭!!");
+    setIsFirstPopupOpen(false);
   };
 
-  // 휴지통(차량 삭제 버튼)
-  const handleDeleteButton = () => {
-    console.log("삭제 버튼 클릭!!");
+  const handleCloseSecondPopup = () => {
+    setIsSecondPopupOpen(false);
+    fetchCarList(); // 두 번째 팝업 닫을 때 차량 목록 갱신
   };
 
   return (
@@ -91,16 +86,13 @@ const MyCarInfo: React.FC = () => {
             <div key={index} className="car-info-container">
               <div className="car-info-rowcontainer">
                 <div className="car-info-left">
-                  <p style={{ fontSize: "18px" }}>{car.company}</p> {/*회사*/}
+                  <p style={{ fontSize: "18px" }}>{car.company}</p>
                   <p style={{ fontWeight: "bold", fontSize: "30px" }}>
                     {car.model}
-                  </p>{" "}
-                  {/*모델*/}
+                  </p>
                   <p style={{ fontSize: "23px", color: "#7A7A7A" }}>
                     {car.modelDetail}
-                  </p>{" "}
-                  {/*모델디테일*/}
-                  {/*date, distance, color*/}
+                  </p>
                   <p>
                     <span className="orange-bold-style">
                       {car.date.split("-")[0]}
@@ -114,7 +106,7 @@ const MyCarInfo: React.FC = () => {
                   <div style={{ marginTop: "40px" }}>
                     <button
                       className="add-car-button2"
-                      onClick={handleMaintenancePopup}
+                      onClick={() => console.log("정비 이력 버튼 클릭!!")}
                     >
                       정비 이력
                     </button>
@@ -146,10 +138,7 @@ const MyCarInfo: React.FC = () => {
 
                   <div className="row-hipen-style"></div>
 
-                  <p
-                    style={{ marginTop: "10px", marginBottom: "5px" }}
-                    className="info-row"
-                  >
+                  <p className="info-row" style={{ marginTop: "10px", marginBottom: "5px" }}>
                     <span>변속기</span>{" "}
                     <span className="orange-bold-style">{car.shift}</span>
                   </p>
@@ -160,7 +149,7 @@ const MyCarInfo: React.FC = () => {
                 <div>
                   <button
                     className="car-info-trashbutton"
-                    onClick={handleDeleteButton}
+                    onClick={() => console.log("삭제 버튼 클릭!!")}
                   >
                     <FaTrash size={20} />
                   </button>
@@ -185,6 +174,7 @@ const MyCarInfo: React.FC = () => {
           </div>
         </div>
       )}
+
       {/* 첫 번째 팝업 */}
       {isFirstPopupOpen && (
         <CarAddPopup
@@ -193,16 +183,13 @@ const MyCarInfo: React.FC = () => {
           userId={userId}
         />
       )}
+
       {/* 두 번째 팝업 */}
       {isSecondPopupOpen && (
         <CarAddPopup_1
           onClose={handleCloseSecondPopup}
           onReopenFirstPopup={handleOpenFirstPopup}
-          carNumber={carInfo.carNumber}
-          company={carInfo.company} // 차량 정보 전달
-          model={carInfo.model}
-          detail={carInfo.detail}
-          image={carInfo.image}
+          {...carInfo}
           userId={userId}
         />
       )}
