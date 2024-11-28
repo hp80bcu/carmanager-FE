@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom"; // 추가
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 import CarCard from "../cars/CarCard";
 import { CarData } from "../cars/CarData";
 import SideNav from "../../components/SideNav";
 import SearchBar from "../../components/Searchbar/Searchbar";
-import axios from "axios";
 import { Grid, Typography } from "@mui/material";
 
 const SearchPage = () => {
@@ -20,9 +20,18 @@ const SearchPage = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/sells/?company=${company}&model=${model}&detail=${detail}`
-        );
+        // detail 값이 있는지 확인하여 URL 구성
+        let url = `http://localhost:8080/sells/?company=${company}`;
+        
+        if (model) {
+          url += `&model=${model}`;
+        }
+        
+        if (detail) {
+          url += `&detail=${detail}`;
+        }
+
+        const response = await axios.get(url);
         setCars(response.data.result);
         setTotalCars(response.data.result.length); // 결과에 따라 총 차량 수 업데이트
       } catch (error) {
@@ -36,13 +45,16 @@ const SearchPage = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      {/* 고정된 SideNav */}
       <SideNav />
+      {/* 고정된 SearchBar */}
       <div style={{ position: "sticky", top: 0, zIndex: 10 }}>
         <SearchBar
-          placeholder={`${totalCars.toLocaleString()} 대의 차량이 등록되어 있습니다!`}
-          onSearch={() => {}}
-        />
+          placeholder={`${totalCars.toLocaleString()} 대의 차량이 등록되어 있습니다!`} onSearch={function (searchTerm: string): void {
+            throw new Error("Function not implemented.");
+          } }        />
       </div>
+      {/* 스크롤 가능 영역 */}
       <div
         style={{
           flex: 1,
@@ -53,7 +65,7 @@ const SearchPage = () => {
           background: "#f9f9f9",
         }}
       >
-        {cars.length > 0 ? (
+        {cars && cars.length > 0 ? (
           <Grid container columnSpacing={2} rowSpacing={3}>
             {cars.map((car) => (
               <Grid
