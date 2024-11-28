@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import {
   Box,
   Typography,
   Grid,
-  FormControlLabel,
-  Checkbox,
-  TextField,
   Button,
 } from "@mui/material";
-import { categories } from "../categories";
+import axios from "axios";
 
 interface Category {
   title: string;
@@ -18,6 +15,10 @@ interface Category {
 
 interface Step5Props {
   categories: Category[];
+  selectedOptions: string[];
+  price: string;
+  description: string;
+  setPictures: (pictures: File[]) => void;
 }
 
 interface Image {
@@ -25,11 +26,13 @@ interface Image {
   id: number;
 }
 
-const Step4: React.FC<Step5Props> = ({ categories }) => {
+const Step4: React.FC<Step5Props> = ({ categories, selectedOptions, price, description, setPictures }) => {
   const [images, setImages] = useState<{
     내장: Image[];
     외장: Image[];
   }>({ 내장: [], 외장: [] });
+
+  const [pictures, updatePictures] = useState<File[]>([]);
 
   const onDrop = (acceptedFiles: File[], type: "내장" | "외장") => {
     setImages((prevImages) => ({
@@ -42,6 +45,12 @@ const Step4: React.FC<Step5Props> = ({ categories }) => {
         })),
       ],
     }));
+
+    updatePictures((prevPictures) => {
+      const updatedPictures = [...prevPictures, ...acceptedFiles];
+      setPictures(updatedPictures); // Update parent state
+      return updatedPictures;
+    });
   };
 
   const handleRemoveImage = (id: number, type: "내장" | "외장") => {
@@ -72,7 +81,6 @@ const Step4: React.FC<Step5Props> = ({ categories }) => {
             sx={{
               width: "10rem",
               height: "10rem",
-              // paddingTop: "100%", // Aspect ratio 1:1
               position: "relative",
               background: `url(${image.src})`,
               backgroundSize: "cover",
@@ -81,7 +89,6 @@ const Step4: React.FC<Step5Props> = ({ categories }) => {
               overflow: "hidden",
               border: 1,
               borderColor: "grey.500",
-              marginRight: "15rem",
             }}
           >
             <Button
@@ -93,11 +100,6 @@ const Step4: React.FC<Step5Props> = ({ categories }) => {
                 color: "red",
                 fontSize: "12px",
                 zIndex: 10,
-                padding: "1px 1px", // 내부 여백 최소화
-                minWidth: "20px", // 버튼 최소 너비
-                "&:hover": {
-                  background: "darkgrey", // 호버 시 색상 변경
-                },
               }}
             >
               X
@@ -106,21 +108,16 @@ const Step4: React.FC<Step5Props> = ({ categories }) => {
         </Grid>
       ))}
       <Grid item xs={4}>
-      <div
-          {...(type === "내장"
-            ? getInnerRootProps()
-            : getOuterRootProps())}
+        <div
+          {...(type === "내장" ? getInnerRootProps() : getOuterRootProps())}
         >
           <input
-            {...(type === "내장"
-              ? getInnerInputProps()
-              : getOuterInputProps())}
+            {...(type === "내장" ? getInnerInputProps() : getOuterInputProps())}
           />
           <Box
             sx={{
               width: "10rem",
               height: "10rem",
-              // paddingTop: "100%", // Aspect ratio 1:1
               backgroundColor: "#e0e0e0",
               display: "flex",
               alignItems: "center",
@@ -140,57 +137,58 @@ const Step4: React.FC<Step5Props> = ({ categories }) => {
     </Grid>
   );
 
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        // height: "30rem",
-        marginRight: "23rem",
-        marginLeft: "23rem",
-        padding: 2,
-        borderRadius: "16px",
-        boxShadow: "0px 0px 15px 5px rgba(0, 0, 0, 0.1)", // Horizontal, Vertical, Blur, Spread, and Color
-      }}
-    >
-      <Box sx={{ marginTop: "0.1rem" }}>
-        <Typography variant="h5" component="h2" style={{ fontWeight: "bold" }}>
-          차량 사진 업로드
-        </Typography>
-      </Box>
-      <Box sx={{ marginTop: "0.2rem" }}>
-        <p style={{ fontSize: "12px" }}>
-          첨부할 사진을 올려주세요. 내장사진, 외장사진 각각 최소 2개이상 올려야
-          합니다.
-        </p>
-      </Box>
-      <Box
-        sx={{
-          marginTop: "1rem",
-          fontWeight: "bold",
-          fontSize: "25px",
-          alignSelf: "start",
-          marginLeft: 4,
-          marginRight: 4,
-        }}
-      >
-        <Box sx={{ width: "100%", mb: 4 }}>
-          <Typography variant="h6" fontWeight="bold" mb={2}>
-            내장 사진
-          </Typography>
-          {renderImageBoxes("내장")}
-        </Box>
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append("carId", "123"); // 예시 carId (실제 값으로 변경 필요)
+    formData.append("carNumber", "XYZ1234"); // 예시 carNumber (실제 값으로 변경 필요)
+    formData.append("price", price);
+    formData.append("description", description);
 
-        <Box sx={{ width: "100%" }}>
-          <Typography variant="h6" fontWeight="bold" mb={2}>
-            외장 사진
-          </Typography>
-          {renderImageBoxes("외장")}
-        </Box>
+    // 선택된 옵션들 추가
+    selectedOptions.forEach((option) => formData.append("Options", option));
+
+    // 파일 추가
+    pictures.forEach((picture) => formData.append("Pictures", picture));
+
+    try {
+      const response = await axios.post("http://localhost:8080/sells", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("서버 응답:", response.data);
+    } catch (error) {
+      console.error("에러 발생:", error);
+    }
+  };
+
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", padding: 2 }}>
+      <Typography variant="h5" component="h2" sx={{ fontWeight: "bold", marginBottom: "1rem" }}>
+        차량 사진 업로드
+      </Typography>
+      <Typography variant="body2" sx={{ marginBottom: "1rem" }}>
+        첨부할 사진을 올려주세요. 내장사진, 외장사진 각각 최소 2개 이상 올려야 합니다.
+      </Typography>
+      <Box sx={{ width: "100%", mb: 4 }}>
+        <Typography variant="h6" fontWeight="bold" mb={2}>내장 사진</Typography>
+        {renderImageBoxes("내장")}
       </Box>
+      <Box sx={{ width: "100%" }}>
+        <Typography variant="h6" fontWeight="bold" mb={2}>외장 사진</Typography>
+        {renderImageBoxes("외장")}
+      </Box>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+        sx={{ marginTop: "2rem" }}
+      >
+        차량 등록
+      </Button>
     </Box>
   );
 };
 
 export default Step4;
+

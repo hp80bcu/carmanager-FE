@@ -8,15 +8,20 @@ interface Category {
 
 interface Step4Props {
   categories: Category[];
+  selectedOptions: string[];
+  price: string;
+  description: string;
+  updateDescription: (newDescription: string) => void;
 }
 
-const Step3: React.FC<Step4Props> = ({ categories }) => {
+const Step3: React.FC<Step4Props> = ({ categories, selectedOptions, price, description, updateDescription }) => {
   // State to store the input value
   const [inputValue, setInputValue] = useState("");
 
   // Handler to update state when input changes
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+    updateDescription(event.target.value);
   };
 
   return (

@@ -1,33 +1,24 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  Grid,
-  FormControlLabel,
-  Checkbox,
-  TextField,
-} from "@mui/material";
-import { categories } from "../categories";
+import { Box, Typography, TextField } from "@mui/material";
 
 interface Category {
   title: string;
   options: string[];
 }
 
-interface Step3Props {
-  categories: Category[];
+interface Step2Props {
+  selectedOptions: string[]; // 추가된 props
+  price: string;
+  updatePrice: (newPrice: string) => void; // 추가된 props
 }
 
-const Step2: React.FC<Step3Props> = ({ categories }) => {
-  const [price, setPrice] = useState("");
-
+const Step2: React.FC<Step2Props> = ({ selectedOptions, price, updatePrice }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // 숫자만 입력하도록 제한
-    if (/^\d+$/.test(event.target.value)) {
-      setPrice(event.target.value);
+    if (/^\d*$/.test(event.target.value)) {
+      updatePrice(event.target.value); // 부모 상태 업데이트
     }
   };
-
+  console.log(selectedOptions);
   return (
     <Box
       sx={{
@@ -39,11 +30,11 @@ const Step2: React.FC<Step3Props> = ({ categories }) => {
         marginLeft: "25rem",
         padding: 2,
         borderRadius: "16px",
-        boxShadow: "0px 0px 15px 5px rgba(0, 0, 0, 0.1)", // Horizontal, Vertical, Blur, Spread, and Color
+        boxShadow: "0px 0px 15px 5px rgba(0, 0, 0, 0.1)",
       }}
     >
       <Box sx={{ marginTop: "20px" }}>
-        <Typography variant="h5" component="h2" style={{ fontWeight: "bold" }}>
+        <Typography variant="h5" component="h2" fontWeight="bold">
           판매 금액 입력
         </Typography>
       </Box>
@@ -51,7 +42,7 @@ const Step2: React.FC<Step3Props> = ({ categories }) => {
         <TextField
           id="outlined-basic"
           variant="outlined"
-          value=""
+          value={price}
           onChange={handleChange}
           sx={{
             width: "30rem",
@@ -61,7 +52,7 @@ const Step2: React.FC<Step3Props> = ({ categories }) => {
             endAdornment: (
               <Box
                 sx={{
-                  width:"5rem",
+                  width: "5rem",
                   m: 1,
                   display: "flex",
                   alignItems: "center",
