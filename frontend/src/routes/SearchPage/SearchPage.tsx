@@ -66,7 +66,7 @@ const SearchPage = () => {
           padding: "1rem",
           marginLeft: "20rem",
           marginTop: "2rem",
-          background: "#f9f9f9",
+          // background: "#f9f9f9",
         }}
       >
         {cars && cars.length > 0 ? (
@@ -87,7 +87,7 @@ const SearchPage = () => {
             ))}
           </Grid>
         ) : (
-          <Typography variant="body1" align="center">
+          <Typography variant="body1" align="left">
             등록된 차량이 없습니다.
           </Typography>
         )}
