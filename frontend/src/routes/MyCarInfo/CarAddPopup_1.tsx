@@ -1,41 +1,98 @@
 import React, { useState } from "react";
 import { Button, Modal, Box } from "@mui/material";
-import CarAddPopup_2 from "./CarAddPopup_2";
 import Nav from "../../components/Nav";
+import axios from "axios";
 
 interface CarAddPopup_1Props {
   onClose: () => void;
   onReopenFirstPopup: () => void;
-  // onOpenThirdPopup: () => void;
+  userId: bigint;
+  carNumber: string;
   company: string;
   model: string;
   detail: string;
-  image: string; // 이미지 데이터를 props로 받음
+  image: string;
 }
 
 const CarAddPopup_1: React.FC<CarAddPopup_1Props> = ({
   onClose,
   onReopenFirstPopup,
-  // onOpenThirdPopup,
+  userId,
+  carNumber,
   company,
   model,
   detail,
-  image, // img 데이터를 props로 받음
+  image,
 }) => {
-  const [isThirdModalOpen, setIsThirdModalOpen] = useState(false);
-
   const handleNoClick = () => {
     onReopenFirstPopup();
     onClose();
   };
 
-  const handleSubmit = () => {
-    // 차량 정보 서버 전송 로직 (예시)
-    console.log("네(계속 진행)");
-    // onOpenThirdPopup(); // 세 번째 팝업 열기
-    
-    onClose(); // 두 번째 팝업 닫기
+  const handleSubmit = async () => {
+    console.log("UserId:", userId);
+    console.log("차 번호:", carNumber);
+    console.log("회사:", company);
+    console.log("모델 :", model);
+    console.log("상세:", detail);
+    console.log("이미지:", image);
+    // 백엔드로 데이터를 전송
+    try {
+      const requestData = {
+        userId,
+        carNumber,
+        company,
+        model,
+        detail,
+        image,
+      };
+
+      const response = await axios.post(
+        "http://localhost:8080/cars/add-car",
+        requestData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.data) {
+        alert("차량이 성공적으로 추가되었습니다!");
+        onClose(); // 팝업 닫기
+      } else {
+        alert("차량 추가에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("차량 추가 오류:", error);
+
+      // AxiosError 처리
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // 서버 응답 오류 (status, statusText)
+          console.error(
+            "응답 오류:",
+            error.response.status,
+            error.response.statusText
+          );
+          alert(
+            `서버 오류: ${error.response.status} - ${error.response.statusText}`
+          );
+        } else if (error.request) {
+          // 서버로 요청이 갔지만 응답이 없을 때
+          console.error("요청 오류:", error.request);
+          alert("서버 응답이 없습니다. 네트워크 오류를 확인해주세요.");
+        } else {
+          // 다른 오류
+          console.error("오류 발생:", error.message);
+          alert(`오류: ${error.message}`);
+        }
+      } else {
+        // Axios가 아닌 다른 오류 처리
+        alert("차량 추가 중 오류가 발생했습니다.");
+      }
+    }
   };
+
   return (
     <>
       <Modal
@@ -71,9 +128,13 @@ const CarAddPopup_1: React.FC<CarAddPopup_1Props> = ({
               alignItems: "center",
             }}
           >
-            <p style={{margin:"0", fontSize:"15px"}}>{company}</p>
-            <p style={{margin:"0", fontWeight:"bold", fontSize:"25px"}}>{model}</p>
-            <p style={{margin:"0", fontSize:"15px", color:"grey"}}>{detail}</p>
+            <p style={{ margin: "0", fontSize: "15px" }}>{company}</p>
+            <p style={{ margin: "0", fontWeight: "bold", fontSize: "25px" }}>
+              {model}
+            </p>
+            <p style={{ margin: "0", fontSize: "15px", color: "grey" }}>
+              {detail}
+            </p>
           </Box>
 
           {/* 회색 줄 */}
@@ -140,9 +201,6 @@ const CarAddPopup_1: React.FC<CarAddPopup_1Props> = ({
           </Box>
         </Box>
       </Modal>
-      {isThirdModalOpen && (
-        <CarAddPopup_2 onClose={() => setIsThirdModalOpen(false)} />
-      )}
     </>
   );
 };
