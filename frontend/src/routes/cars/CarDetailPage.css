@@ -1,5 +1,171 @@
+/* 전체 컨테이너 */
+.car-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  /* background-color: #f9f9f9; */
+  color: #333;
+  gap: 20px;
+}
 
+/* 이미지 섹션 */
+.car-image-section {
+  width: 25rem;
+  max-width: 25rem;
+  height: 18rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
 
+.car-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
+.loading-placeholder {
+  font-size: 18px;
+  color: #999;
+  font-weight: bold;
+  text-align: center;
+}
 
+/* 차량 기본 정보 섹션 */
+.car-info-section {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: left;
+}
 
+.car-info-section h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.car-info-section h2 {
+  font-size: 20px;
+  color: #4caf50;
+  margin-bottom: 20px;
+}
+
+.car-basic-info p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+/* 판매자 정보 섹션 */
+.seller-info {
+  margin-top: 20px;
+}
+
+.seller-info h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.seller-info p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+/* 주요 옵션 섹션 */
+.car-options-section {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.car-options-section h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.options-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.option-item {
+  background-color: #f0f0f0;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* 차량 설명 섹션 */
+.car-description-section {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.car-description-section h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.car-description-section p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.car-grid-section {
+  width: 25rem;
+  max-width: 25rem;
+  height: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #4caf50; */
+}
+
+/* 그리드 설정 */
+.image-grid {
+  width: 100%;
+  max-width: 25rem;
+  height: 6rem;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr); /* 한 행에 4개의 이미지 */
+  grid-template-rows: repeat(2, 1fr); /* 한 행에 4개의 이미지 */
+  gap: 0px;
+  /* background-color: aqua; */
+}
+
+/* 각 그리드 항목 설정 */
+.grid-item {
+    position: relative;
+    overflow: hidden;
+    width: "5rem";
+    height: "5rem";
+    border: 0.1px solid black; /* 각 그리드 항목에 경계선 추가 */
+  }
+
+.grid-image {
+  width: 100%;
+  height: 100%;
+}
+
+/* 비어 있는 이미지를 회색으로 채우기 */
+.no-image {
+  background-color: #D9D9D9; /* 회색 배경 */
+  width: 100%;
+  height: 100%;
+}
