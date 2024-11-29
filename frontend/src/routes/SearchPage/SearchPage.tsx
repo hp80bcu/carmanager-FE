@@ -5,7 +5,7 @@ import CarCard from "../cars/CarCard";
 import { CarData } from "../cars/CarData";
 import SideNav from "../../components/SideNav";
 import SearchBar from "../../components/Searchbar/Searchbar";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography} from "@mui/material";
 
 const SearchPage = () => {
   const [cars, setCars] = useState<CarData[]>([]);
@@ -37,6 +37,7 @@ const SearchPage = () => {
 
         const response = await axios.get(url);
         setCars(response.data.result);
+        console.log(response.data.result);
         setTotalCars(response.data.result.length); // 결과에 따라 총 차량 수 업데이트
       } catch (error) {
         console.error("차량 데이터를 가져오는 중 오류 발생:", error);

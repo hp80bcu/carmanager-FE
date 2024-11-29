@@ -60,6 +60,12 @@ const MyCarInfo: React.FC = () => {
     navigate(`/sale/${carId}`);
   };
 
+  // 삭제 버튼
+  const handleCarDeleteClick = (carId: BigInt) => {
+    console.log("삭제 버튼 클릭!!");
+    console.log("carId: ", carId);
+  };
+
   // 첫 번째 팝업 열기/닫기
   const handleOpenFirstPopup = () => setIsFirstPopupOpen(true);
   const handleCloseFirstPopup = () => setIsFirstPopupOpen(false);
@@ -97,7 +103,11 @@ const MyCarInfo: React.FC = () => {
             <span className="username-highlight2">님의 차량 정보</span>
           </h2>
           {userCars.map((car, index) => (
-            <div key={index} className="car-info-container" style={{marginBottom:"1rem"}}>
+            <div
+              key={index}
+              className="car-info-container"
+              style={{ marginBottom: "1rem" }}
+            >
               <div className="car-info-rowcontainer">
                 <div className="car-info-left">
                   <p style={{ fontSize: "18px" }}>{car.company}</p>
@@ -126,10 +136,23 @@ const MyCarInfo: React.FC = () => {
                     </button>
                     <button
                       className="add-car-button2"
-                      style={{ marginLeft: "1rem" }}
-                      onClick={() => handleSaleClick(car.carId)}
+                      style={{
+                        marginLeft: "1rem",
+                        backgroundColor: car.isSale === 1 ? "#d9d9d9" : "", // isSale이 1이면 배경색을 회색으로 설정
+                        color: car.isSale === 1 ? "red" : "",
+                        cursor: car.isSale === 1 ? "not-allowed" : "pointer", // isSale이 1이면 클릭 불가
+                      }}
+                      onClick={(e) => {
+                        if (car.isSale !== 1) {
+                          handleSaleClick(car.carId);
+                        } else {
+                          e.preventDefault(); // 클릭 이벤트 막기
+                        }
+                      }}
+                      disabled={car.isSale === 1} // isSale이 1이면 버튼 비활성화
                     >
-                      판매 등록
+                      {/* isSale이 1이면 "판매 중", 아니면 "판매 등록" */}
+                      {car.isSale === 1 ? "판매 중" : "판매 등록"}{" "}
                     </button>
                   </div>
                 </div>
@@ -173,7 +196,7 @@ const MyCarInfo: React.FC = () => {
                 <div>
                   <button
                     className="car-info-trashbutton"
-                    onClick={() => console.log("삭제 버튼 클릭!!")}
+                    onClick={() => handleCarDeleteClick(car.carId)}
                   >
                     <FaTrash size={20} />
                   </button>

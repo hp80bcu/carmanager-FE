@@ -2,7 +2,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   /* padding: 16px; */
-  height: 20rem;
+  height: 23.5rem;
   text-align: center;
   width: 15rem;
   cursor: pointer;
@@ -17,14 +17,38 @@
 .car-card img {
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 8px 8px 0 0; /*왼쪽 상단, 오른쪽 상단, 오른쪽 하단, 왼쪽 하단*/
 }
-.car-card h3 {
-  font-size: 1.2rem;
-  margin: 10px 0;
+
+.car-card-model {
+  margin: 0px 0px 15px 0px; /*위, 오른쪽, 아래, 왼쪽*/
+  font-weight: bolder;
+  font-size: 2rem;
 }
-.car-card p {
-  margin: 5px 0;
+
+.car-card-content {
+  margin: 5px 20px 0 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #0000009a;
+}
+
+.car-card-price {
+  margin: 5px 20px 0 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #000000;
+}
+
+.car-card-left {
+  justify-items: flex-start;
+}
+
+.car-card-icon {
+  margin: 10px 20px 0 20px;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
 }
 
 /* CarList.css */

@@ -183,7 +183,9 @@ const CarDetailPage: React.FC = () => {
                           onClick={() => handleImageClick(image.file)}
                         />
                       ) : (
-                        <div className="no-image"></div> // 비어있는 칸에 회색 배경 적용
+                        <div className="no-image">
+                          <div className="no-image-text">X</div>
+                        </div> // 비어있는 칸에 회색 배경 적용
                       )}
                     </div>
                   );
@@ -195,14 +197,14 @@ const CarDetailPage: React.FC = () => {
           <div className="car-info-section">
             <h1>
               {loading || !carDetails?.carNum
-                ? "번호판 로딩 중..."
+                ? "차 번호호 로딩 중..."
                 : `(${carDetails.carNum}) ${carDetails.carModel}`}
             </h1>
 
             <h2>
               {loading || !carDetails?.price
                 ? "가격 로딩 중..."
-                : `${carDetails.price}만원`}
+                : Number(carDetails.price).toLocaleString()}만원
             </h2>
 
             <div className="car-basic-info">

@@ -53,7 +53,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder }) => {
           type="button"
           sx={{ p: "10px" }}
           aria-label="search"
-          onClick={handleSearch}
+          // onClick={handleSearch}
         >
           <SearchIcon />
         </IconButton>
