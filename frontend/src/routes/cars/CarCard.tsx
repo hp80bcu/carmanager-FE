@@ -23,7 +23,14 @@ const CarCard: React.FC<CarCardProps> = ({
   const [isFavorite, setIsFavorite] = useState(false); // 찜 상태 추가
 
   const handleClick = () => {
-    navigate(`/cars/${carId}`);
+    navigate(`/cars/${carId}`, {
+      state: {
+        region,
+        registDate,
+        year,
+        fuel,
+      },
+    });
   };
 
   const handleFavoriteClick = (event: React.MouseEvent) => {
@@ -48,7 +55,7 @@ const CarCard: React.FC<CarCardProps> = ({
       {isDataLoaded ? (
         <>
           {/* 데이터가 모두 로드되었을 때 렌더링 */}
-          <img src={profileImage} alt={model} style={{height:"10rem"}}></img>
+          <img src={profileImage} alt={model} style={{ height: "10rem" }}></img>
           <p className="car-card-model">{model}</p>
           <div className="car-card-left">
             <p className="car-card-content">

@@ -35,8 +35,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder }) => {
           display: "flex",
           alignItems: "center",
           width: "100vw",
-          marginLeft: "20rem",
-          marginRight: "15rem",
+          marginLeft: "20rem", // serachbar 넓이 조절하기 왼쪽
+          marginRight: "15rem",// serachbar 넓이 조절하기 오른쪽
           boxShadow: "none",
           border: "1px solid #D9D9D9",
           borderRadius: "10px",

@@ -6,19 +6,20 @@ import { Grid, Typography } from "@mui/material";
 import SearchBar from "../../components/Searchbar/Searchbar";
 import SideNav from "../../components/SideNav";
 import "./CarDetailPage.css";
+import dayjs from "dayjs";
 
 // 타입(alias) 정의
 type CarDetails = {
   carId: number;
   carNum: string;
   carModel: string;
-  shift: string;
-  type: string;
+  shift: string; //변속기
+  type: string; //차량 타입
   color: string;
   price: number;
-  displacement: string;
+  displacement: string; //배기량
   fuel: string;
-  distance: string;
+  distance: string; //주행거리
   options: string[];
   year: string;
   images: {
@@ -27,7 +28,7 @@ type CarDetails = {
     file: string;
     createAt: string | null;
   }[];
-  efficeiency: string;
+  efficeiency: string; //연비
 
   name: string;
   phoneNumber: string;
@@ -48,8 +49,9 @@ const CarDetailPage: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const location = useLocation(); // URL의 쿼리 파라미터를 읽기 위해 추가
+  const { region, registDate, year, fuel } = location.state || {};
 
-
+  console.log("location.state: ", region, registDate, year, fuel);
   // 선택된 이미지 클릭 시 해당 이미지를 상태로 설정
   const handleImageClick = (image: string) => {
     setSelectedImage(image);
@@ -145,68 +147,96 @@ const CarDetailPage: React.FC = () => {
           flex: 1,
           overflowY: "auto",
           padding: "1rem",
-          marginLeft: "10rem",
+          marginLeft: "18rem",
           marginTop: "2rem",
           // background: "#f9f9f9",
         }}
       >
         <div className="car-detail-container">
-          <div className="car-image-section">
-            {/* 이미지 로딩 상태 */}
-            {loading || !carDetails?.images ? (
-              <div className="loading-placeholder">이미지 로딩 중...</div>
-            ) : (
-              <img
-                src={selectedImage || carDetails.images[0]?.file}
-                alt={`${carDetails.carModel}`}
-                className="car-image"
-              />
-            )}
-          </div>
-
-          <div className="car-grid-section">
-            {loading || !carDetails?.images ? (
-              <div className="loading-placeholder">이미지 로딩 중...</div>
-            ) : (
-              <div className="image-grid">
-                {/* 이미지를 그리드로 렌더링하고 부족한 부분은 no-image로 채우기 */}
-                {[...Array(16)].map((_, index) => {
-                  const image = carDetails.images[index];
-                  return (
-                    <div className="grid-item" key={index}>
-                      {image ? (
-                        <img
-                          src={image.file}
-                          alt={`Car image ${index + 1}`}
-                          className="grid-image"
-                          // 이미지 클릭 시 선택한 이미지로 변경
-                          onClick={() => handleImageClick(image.file)}
-                        />
-                      ) : (
-                        <div className="no-image">
-                          <div className="no-image-text">X</div>
-                        </div> // 비어있는 칸에 회색 배경 적용
-                      )}
-                    </div>
-                  );
-                })}
+          <div className="car-detail-first-container">
+            <div className="car-detail-first-image-container">
+              <div className="car-image-section">
+                {/* 이미지 로딩 상태 */}
+                {loading || !carDetails?.images ? (
+                  <div className="loading-placeholder">이미지 로딩 중...</div>
+                ) : (
+                  <img
+                    src={selectedImage || carDetails.images[0]?.file}
+                    alt={`${carDetails.carModel}`}
+                    className="car-image"
+                  />
+                )}
               </div>
-            )}
+
+              <div className="car-grid-section">
+                {loading || !carDetails?.images ? (
+                  <div className="loading-placeholder">이미지 로딩 중...</div>
+                ) : (
+                  <div className="image-grid">
+                    {/* 이미지를 그리드로 렌더링하고 부족한 부분은 no-image로 채우기 */}
+                    {[...Array(16)].map((_, index) => {
+                      const image = carDetails.images[index];
+                      return (
+                        <div className="grid-item" key={index}>
+                          {image ? (
+                            <img
+                              src={image.file}
+                              alt={`Car image ${index + 1}`}
+                              className="grid-image"
+                              // 이미지 클릭 시 선택한 이미지로 변경
+                              onClick={() => handleImageClick(image.file)}
+                            />
+                          ) : (
+                            <div className="no-image">
+                              <div className="no-image-text">X</div>
+                            </div> // 비어있는 칸에 회색 배경 적용
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="car-detail-first-content">
+              <h1>
+                {loading || !carDetails?.carNum
+                  ? "차 번호 로딩 중..."
+                  : `(${carDetails.carNum}) ${carDetails.carModel}`}
+              </h1>
+              <div className="car-detail-first-content-basic-info1">
+                <p>
+                  {loading || !registDate
+                    ? "로딩 중..."
+                    : dayjs(registDate).format("YYYY년 MM월")}
+                  {""}
+                </p>
+                <p>
+                  {loading || !year
+                    ? "로딩 중..."
+                    : `(${String(year).slice(-2)}년형)`}
+                  {" | "}
+                </p>
+                <p style={{ paddingTop: "1.5px" }}>
+                  {loading || !fuel ? "로딩 중..." : fuel}
+                  {" | "}
+                </p>
+                <p>{loading || !region ? "로딩 중..." : region}</p>
+              </div>
+              <div className="row-hipen-style"></div>
+              <div className="car-detail-first-content-basic-info2">
+                <p>판매가격</p>
+                <h2>
+                  {loading || !carDetails?.price
+                    ? "가격 로딩 중..."
+                    : Number(carDetails.price).toLocaleString()}
+                  만원
+                </h2>
+              </div>
+            </div>
           </div>
 
           <div className="car-info-section">
-            <h1>
-              {loading || !carDetails?.carNum
-                ? "차 번호호 로딩 중..."
-                : `(${carDetails.carNum}) ${carDetails.carModel}`}
-            </h1>
-
-            <h2>
-              {loading || !carDetails?.price
-                ? "가격 로딩 중..."
-                : Number(carDetails.price).toLocaleString()}만원
-            </h2>
-
             <div className="car-basic-info">
               <p>
                 연식:{" "}
