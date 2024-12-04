@@ -20,7 +20,7 @@ type CarDetails = {
   displacement: string; //배기량
   fuel: string;
   distance: string; //주행거리
-  options: string[];
+  options: string;
   year: string;
   images: {
     fileId: number;
@@ -128,6 +128,7 @@ const CarDetailPage: React.FC = () => {
       fetchCarDetails();
     }
   }, [carId]);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       {/* 고정된 SideNav */}
@@ -309,7 +310,10 @@ const CarDetailPage: React.FC = () => {
           <div className="car-basic-info">
             <h2>차량 기본정보</h2>
             <div className="car-basic-info-row">
-              <div className="car-basic-info-coulmn" style={{color:"#C0C0C0"}}>
+              <div
+                className="car-basic-info-coulmn"
+                style={{ color: "#C0C0C0" }}
+              >
                 <p>차량번호</p>
                 <p>주행거리</p>
                 <p>변속기</p>
@@ -317,7 +321,10 @@ const CarDetailPage: React.FC = () => {
                 <p>색상</p>
               </div>
 
-              <div className="car-basic-info-coulmn" style={{marginRight:"10px"}}>
+              <div
+                className="car-basic-info-coulmn"
+                style={{ marginRight: "10px" }}
+              >
                 <p>
                   {loading || !carDetails?.carNum
                     ? "로딩 중..."
@@ -326,7 +333,8 @@ const CarDetailPage: React.FC = () => {
                 <p>
                   {loading || !carDetails?.distance
                     ? "로딩 중..."
-                    : Number(carDetails.distance).toLocaleString()}km
+                    : Number(carDetails.distance).toLocaleString()}
+                  km
                 </p>
                 <p>
                   {loading || !carDetails?.shift
@@ -345,12 +353,15 @@ const CarDetailPage: React.FC = () => {
                 </p>
               </div>
 
-              <div className="car-basic-info-coulmn" style={{color:"#C0C0C0"}}>
+              <div
+                className="car-basic-info-coulmn"
+                style={{ color: "#C0C0C0" }}
+              >
                 <p>연식</p>
                 <p>연료</p>
                 <p>연비</p>
                 <p>배기량</p>
-                <p style={{height:"21.5px"}}></p>
+                <p style={{ height: "21.5px" }}></p>
               </div>
 
               <div className="car-basic-info-coulmn">
@@ -373,14 +384,16 @@ const CarDetailPage: React.FC = () => {
                 <p>
                   {loading || !carDetails?.efficeiency
                     ? "로딩 중..."
-                    : carDetails.efficeiency}km/L
+                    : carDetails.efficeiency}
+                  km/L
                 </p>
                 <p>
                   {loading || !carDetails?.displacement
                     ? "로딩 중..."
-                    : Number(carDetails.displacement).toLocaleString()}cc
+                    : Number(carDetails.displacement).toLocaleString()}
+                  cc
                 </p>
-                <p style={{height:"21.5px"}}></p>
+                <p style={{ height: "21.5px" }}></p>
               </div>
             </div>
           </div>
@@ -390,15 +403,7 @@ const CarDetailPage: React.FC = () => {
           <div className="car-options-section">
             <h2>주요 옵션</h2>
             <div className="options-list">
-              {loading || !carDetails || !Array.isArray(carDetails.options) ? (
-                <div className="loading-placeholder">옵션 로딩 중...</div>
-              ) : (
-                carDetails.options.map((option, index) => (
-                  <div key={index} className="option-item">
-                    {option}
-                  </div>
-                ))
-              )}
+              {/* 여기에 옵션 이미지 */}
             </div>
           </div>
 
