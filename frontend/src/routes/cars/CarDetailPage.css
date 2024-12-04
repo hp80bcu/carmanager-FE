@@ -8,7 +8,7 @@
   font-family: Arial, sans-serif;
   /* background-color: #f9f9f9; */
   color: #333;
-  gap: 20px;
+  /* gap: 10px; */
 }
 
 /* 이미지 섹션 */
@@ -39,35 +39,28 @@
 /* ============================ */
 
 /* 차량 기본 정보 섹션 */
-.car-info-section {
+.car-basic-info {
   width: 100%;
   max-width: 800px;
   text-align: left;
 }
-
-.car-basic-info p {
-  margin: 5px 0;
-  font-size: 16px;
+.car-basic-info-row{
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 30px;
 }
+.car-basic-info-row p{
+  height: 21.5px;
+}
+.car-basic-info-column{
+  display: flex;
+  flex-direction: column;
+  column-gap: 20px;
+}
+
 .car-basic-info h2 {
-  margin: 0 0 20px 0;        /*위, 오른쪽, 아래, 왼쪽*/
-}
- 
-/* ============================ */
-
-/* 판매자 정보 섹션 */
-.seller-info {
-  margin-top: 20px;
-}
-
-.seller-info h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.seller-info p {
-  margin: 5px 0;
-  font-size: 16px;
+  margin: 10px 0 10px 0; /*위, 오른쪽, 아래, 왼쪽*/
 }
 
 /* ============================ */
@@ -77,14 +70,10 @@
   width: 100%;
   max-width: 800px;
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
 }
 
-.car-options-section h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
+.car-options-section h2 {
+  margin: 10px 0 10px 0; /*위, 오른쪽, 아래, 왼쪽*/
 }
 
 .options-list {
@@ -106,14 +95,10 @@
   width: 100%;
   max-width: 800px;
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
 }
 
-.car-description-section h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
+.car-description-section h2 {
+  margin: 10px 0 20px 0; /*위, 오른쪽, 아래, 왼쪽*/
 }
 
 .car-description-section p {
@@ -146,12 +131,12 @@
 
 /* 각 그리드 항목 설정 */
 .grid-item {
-    position: relative;
-    overflow: hidden;
-    width: "5rem";
-    height: "5rem";
-    border: 0.1px solid black; /* 각 그리드 항목에 경계선 추가 */
-  }
+  position: relative;
+  overflow: hidden;
+  width: "5rem";
+  height: "5rem";
+  border: 0.1px solid black; /* 각 그리드 항목에 경계선 추가 */
+}
 
 .grid-image {
   width: 100%;
@@ -164,7 +149,7 @@
 
 /* 비어 있는 이미지를 회색으로 채우기 */
 .no-image {
-  background-color: #D9D9D9; /* 회색 배경 */
+  background-color: #d9d9d9; /* 회색 배경 */
   width: 100%;
   height: 100%;
   display: flex;
@@ -179,37 +164,38 @@
   padding-top: 1px;
 }
 
-.car-detail-first-container{
+.car-detail-first-container {
   display: flex;
   flex-direction: row;
 }
 
-.car-detail-first-image-container{
+.car-detail-first-image-container {
   display: flex;
   flex-direction: column;
 }
 
-.car-detail-first-content{
+.car-detail-first-content {
   display: flex;
   width: 100%;
   flex-direction: column;
   padding-left: 2rem;
+  margin-bottom: 40px;
 }
-.car-detail-first-content h1{
+.car-detail-first-content h1 {
   font-size: 24px;
-  margin: 0px 0px 10px 0px;        /*위, 오른쪽, 아래, 왼쪽*/
+  margin: 0px 0px 10px 0px; /*위, 오른쪽, 아래, 왼쪽*/
   font-weight: bold;
 }
 
-.car-detail-first-content-basic-info1{
+.car-detail-first-content-basic-info1 {
   display: flex;
   flex-direction: row;
   align-items: start; /* 수직 정렬 */
-  justify-content: start; /* 부모 안에서 수평 정렬 */;
+  justify-content: start; /* 부모 안에서 수평 정렬 */
 }
-.car-detail-first-content-basic-info1 p{
-  margin: 0px 5px 10px 0px;        /*위, 오른쪽, 아래, 왼쪽*/
-  color: #BABABA;
+.car-detail-first-content-basic-info1 p {
+  margin: 0px 5px 10px 0px; /*위, 오른쪽, 아래, 왼쪽*/
+  color: #bababa;
   font-size: 15px;
   display: flex; /* 텍스트를 포함한 컨텐츠를 정렬 가능하게 설정 */
   align-items: center; /* 텍스트 수직 정렬 */
@@ -218,20 +204,20 @@
 }
 
 .row-hipen-style {
-  margin-top: 10px;
-  height: 1.2px;
+  /* margin-top: 10px; */
+  height: 1px;
   width: 100%;
   background-color: #d9d9d9;
 }
 
-.car-detail-first-content-basic-info2{
+.car-detail-first-content-basic-info2 {
   display: flex;
   flex-direction: row;
   align-items: start; /* 수직 정렬 */
-  justify-content: start; /* 부모 안에서 수평 정렬 */;
+  justify-content: start; /* 부모 안에서 수평 정렬 */
 }
-.car-detail-first-content-basic-info2 p{
-  margin: 0px 5px 10px 0px;        /*위, 오른쪽, 아래, 왼쪽*/
+.car-detail-first-content-basic-info2 p {
+  margin: 0px 5px 0px 0px; /*위, 오른쪽, 아래, 왼쪽*/
   font-size: 15px;
   display: flex; /* 텍스트를 포함한 컨텐츠를 정렬 가능하게 설정 */
   align-items: center; /* 텍스트 수직 정렬 */
@@ -244,11 +230,84 @@
   font-weight: bold;
 }
 .car-detail-first-content-basic-info2 h2 {
-  margin: 0px 5px 10px 20px;        /*위, 오른쪽, 아래, 왼쪽*/
+  margin: 0px 5px 0px 20px; /*위, 오른쪽, 아래, 왼쪽*/
   font-size: 20px;
-  color: #07C8A3;
+  color: #07c8a3;
   display: flex; /* 텍스트를 포함한 컨텐츠를 정렬 가능하게 설정 */
   align-items: center; /* 텍스트 수직 정렬 */
   justify-content: center; /* 텍스트 수평 정렬 */
   height: 100%; /* 부모 높이에 맞게 설정 */
+}
+.car-detail-first-content-basic-info2 button {
+  margin: 10px 0px 10px auto; /*위, 오른쪽, 아래, 왼쪽*/
+  font-size: 12px;
+  color: #ff3232;
+  display: flex;
+  align-items: center; /* 텍스트 수직 정렬 */
+  justify-content: end; /* 텍스트 수평 정렬 */
+  border: 1px solid #ff3232;
+  background-color: #fff;
+  border-radius: 25px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.car-detail-first-content-basic-info3 {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* 수직 정렬 */
+  justify-content: space-evenly; /* 부모 안에서 수평 정렬 */
+}
+.car-detail-first-content-basic-info3 img {
+  width: 70px;
+  height: auto;
+  cursor: pointer;
+}
+.car-detail-first-content-basic-info3-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 수직 정렬 */
+  justify-content: center; /* 부모 안에서 수평 정렬 */
+}
+.car-detail-first-content-basic-info3-column p {
+  margin: 5px 0px 0px 0px; /*위, 오른쪽, 아래, 왼쪽*/
+  align-items: center;
+  justify-content: center; /* 부모 안에서 수평 정렬 */
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.car-detail-first-content-basic-info4 {
+  margin-top: 20px;
+  width: 330px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-self: center; /* 수직 정렬 */
+  align-items: center;
+  justify-content: center;
+}
+.car-detail-first-content-basic-info4 h3 {
+  margin: 5px 0px 10px 0px; /*위, 오른쪽, 아래, 왼쪽*/
+}
+.car-detail-first-content-basic-info4-row {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 30px ;
+}
+.car-detail-first-content-basic-info4-row img{
+  width: 25px;
+  height: 20px;
+  align-self: center; /* 수직 정렬 */
+}
+.car-detail-first-content-basic-info4-row p{
+  color: #FF3355;
+  font-weight: bold;
+}
+.car-detail-first-content-basic-info4-column {
+  display: flex;
+  flex-direction: column;
 }

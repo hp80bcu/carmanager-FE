@@ -232,73 +232,163 @@ const CarDetailPage: React.FC = () => {
                     : Number(carDetails.price).toLocaleString()}
                   만원
                 </h2>
+                <button>시세확인</button>
+              </div>
+              <div className="car-detail-first-content-basic-info3">
+                <div className="car-detail-first-content-basic-info3-column">
+                  <img src="../Image/basic-info.png"></img>
+                  <p>기본정보</p>
+                </div>
+                <div className="car-detail-first-content-basic-info3-column">
+                  <img
+                    src={
+                      Number(carDetails?.distance) < 50000
+                        ? "../Image/distance-veryshort.png"
+                        : Number(carDetails?.distance) < 100000
+                        ? "../Image/distance-short.png"
+                        : Number(carDetails?.distance) < 150000
+                        ? "../Image/distance-long.png"
+                        : "../Image/distance-verylong.png"
+                    }
+                    alt="주행거리 상태"
+                  ></img>
+                  <p>주행거리</p>
+                </div>
+                <div className="car-detail-first-content-basic-info3-column">
+                  <img src="../Image/chat.png"></img>
+                  <p>1:1채팅</p>
+                </div>
+              </div>
+              <div className="car-detail-first-content-basic-info4">
+                <h3>판매자 정보</h3>
+                <div className="car-detail-first-content-basic-info4-row">
+                  <p
+                    style={{
+                      margin: "15px 0 0 0",
+                      // paddingRight:"20px",
+                      fontWeight: "unset",
+                      fontSize: "20px",
+                      color: "black",
+                    }}
+                  >
+                    {loading || !carDetails?.name
+                      ? "이름 로딩 중..."
+                      : carDetails.name}
+                  </p>
+                  <div className="car-detail-first-content-basic-info4-column">
+                    <div
+                      className="car-detail-first-content-basic-info4-row"
+                      style={{ gap: "20px" }}
+                    >
+                      <img src="../Image/phone.png"></img>
+                      <p>
+                        {loading || !carDetails?.phoneNumber
+                          ? "전화번호 로딩 중..."
+                          : carDetails.phoneNumber}
+                      </p>
+                    </div>
+                    <div
+                      className="car-detail-first-content-basic-info4-row"
+                      style={{ gap: "20px" }}
+                    >
+                      <img src="../Image/email.png"></img>
+                      <p>
+                        {loading || !carDetails?.email
+                          ? "이메일 로딩 중..."
+                          : carDetails.email}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
           <div className="row-hipen-style"></div>
 
-          <div className="car-info-section">
-            
-            <div className="car-basic-info">
+          <div className="car-basic-info">
             <h2>차량 기본정보</h2>
-              <p>
-                연식:{" "}
-                {loading || !carDetails?.year ? "로딩 중..." : carDetails.year}
-              </p>
-              <p>
-                연료:{" "}
-                {loading || !carDetails?.fuel ? "로딩 중..." : carDetails.fuel}
-              </p>
-              <p>
-                주행거리:{" "}
-                {loading || !carDetails?.distance
-                  ? "로딩 중..."
-                  : carDetails.distance}
-              </p>
-              <p>
-                변속기:{" "}
-                {loading || !carDetails?.shift
-                  ? "로딩 중..."
-                  : carDetails.shift}
-              </p>
-              <p>
-                배기량:{" "}
-                {loading || !carDetails?.efficeiency
-                  ? "로딩 중..."
-                  : `${carDetails.efficeiency}cc`}
-              </p>
-              <p>
-                색상:{" "}
-                {loading || !carDetails?.color
-                  ? "로딩 중..."
-                  : carDetails.color}
-              </p>
-            </div>
+            <div className="car-basic-info-row">
+              <div className="car-basic-info-coulmn" style={{color:"#C0C0C0"}}>
+                <p>차량번호</p>
+                <p>주행거리</p>
+                <p>변속기</p>
+                <p>차종</p>
+                <p>색상</p>
+              </div>
 
-            <div className="seller-info">
-              <h3>판매자 정보</h3>
-              <p>
-                이름:{" "}
-                {loading || !carDetails?.name ? "로딩 중..." : carDetails.name}
-              </p>
-              <p>
-                연락처:{" "}
-                {loading || !carDetails?.phoneNumber
-                  ? "로딩 중..."
-                  : carDetails.phoneNumber}
-              </p>
-              <p>
-                이메일:{" "}
-                {loading || !carDetails?.email
-                  ? "로딩 중..."
-                  : carDetails.email}
-              </p>
+              <div className="car-basic-info-coulmn" style={{marginRight:"10px"}}>
+                <p>
+                  {loading || !carDetails?.carNum
+                    ? "로딩 중..."
+                    : carDetails.carNum}
+                </p>
+                <p>
+                  {loading || !carDetails?.distance
+                    ? "로딩 중..."
+                    : Number(carDetails.distance).toLocaleString()}km
+                </p>
+                <p>
+                  {loading || !carDetails?.shift
+                    ? "로딩 중..."
+                    : carDetails.shift}
+                </p>
+                <p>
+                  {loading || !carDetails?.type
+                    ? "로딩 중..."
+                    : carDetails.type}
+                </p>
+                <p>
+                  {loading || !carDetails?.color
+                    ? "로딩 중..."
+                    : carDetails.color}
+                </p>
+              </div>
+
+              <div className="car-basic-info-coulmn" style={{color:"#C0C0C0"}}>
+                <p>연식</p>
+                <p>연료</p>
+                <p>연비</p>
+                <p>배기량</p>
+                <p style={{height:"21.5px"}}></p>
+              </div>
+
+              <div className="car-basic-info-coulmn">
+                <p>
+                  {loading || !registDate
+                    ? "로딩 중..."
+                    : dayjs(registDate).format("YYYY년 MM월")}
+                  {""}
+                  <span>
+                    {loading || !year
+                      ? "로딩 중..."
+                      : `(${String(year).slice(-2)}년형)`}
+                  </span>
+                </p>
+                <p>
+                  {loading || !carDetails?.fuel
+                    ? "로딩 중..."
+                    : carDetails.fuel}
+                </p>
+                <p>
+                  {loading || !carDetails?.efficeiency
+                    ? "로딩 중..."
+                    : carDetails.efficeiency}km/L
+                </p>
+                <p>
+                  {loading || !carDetails?.displacement
+                    ? "로딩 중..."
+                    : Number(carDetails.displacement).toLocaleString()}cc
+                </p>
+                <p style={{height:"21.5px"}}></p>
+              </div>
             </div>
           </div>
 
+          <div className="row-hipen-style"></div>
+
           <div className="car-options-section">
-            <h3>주요 옵션</h3>
+            <h2>주요 옵션</h2>
             <div className="options-list">
               {loading || !carDetails || !Array.isArray(carDetails.options) ? (
                 <div className="loading-placeholder">옵션 로딩 중...</div>
@@ -312,8 +402,10 @@ const CarDetailPage: React.FC = () => {
             </div>
           </div>
 
+          <div className="row-hipen-style"></div>
+
           <div className="car-description-section">
-            <h3>차량 설명</h3>
+            <h2>차량 설명</h2>
             <p>
               {loading || !carDetails?.carDescription
                 ? "설명 로딩 중..."
