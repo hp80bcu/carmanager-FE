@@ -36,33 +36,24 @@
   text-align: center;
 }
 
-/* 차량 기본 정보 섹션
+/* ============================ */
+
+/* 차량 기본 정보 섹션 */
 .car-info-section {
   width: 100%;
   max-width: 800px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
   text-align: left;
 }
-
-.car-info-section h1 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-.car-info-section h2 {
-  font-size: 20px;
-  color: #4caf50;
-  margin-bottom: 20px;
-} */
 
 .car-basic-info p {
   margin: 5px 0;
   font-size: 16px;
 }
+.car-basic-info h2 {
+  margin: 0 0 20px 0;        /*위, 오른쪽, 아래, 왼쪽*/
+}
+ 
+/* ============================ */
 
 /* 판매자 정보 섹션 */
 .seller-info {
@@ -78,6 +69,8 @@
   margin: 5px 0;
   font-size: 16px;
 }
+
+/* ============================ */
 
 /* 주요 옵션 섹션 */
 .car-options-section {
@@ -226,7 +219,7 @@
 
 .row-hipen-style {
   margin-top: 10px;
-  height: 1.5px;
+  height: 1.2px;
   width: 100%;
   background-color: #d9d9d9;
 }

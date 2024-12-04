@@ -236,8 +236,12 @@ const CarDetailPage: React.FC = () => {
             </div>
           </div>
 
+          <div className="row-hipen-style"></div>
+
           <div className="car-info-section">
+            
             <div className="car-basic-info">
+            <h2>차량 기본정보</h2>
               <p>
                 연식:{" "}
                 {loading || !carDetails?.year ? "로딩 중..." : carDetails.year}

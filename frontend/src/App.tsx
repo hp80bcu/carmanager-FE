@@ -27,7 +27,7 @@ function App() {
           <Route path="/mycar" element={<MyCarInfo />} />
           <Route path="/cars/:carId" element={<CarDetailPage />} />
           <Route path="/bookmark" element={<Bookmark />} />
-          <Route path="/users/:userId" element={<UserInfoModify />} /> {/* 수정된 부분 */}
+          <Route path="/users/:userId" element={<UserInfoModify />} />
           <Route path="/users/login" element={<Login />} />
         </Routes>
       </Router>

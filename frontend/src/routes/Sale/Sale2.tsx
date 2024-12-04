@@ -45,11 +45,10 @@ const Sale2: React.FC = () => {
         setAlertShown(true); // alert을 표시한 후 상태 업데이트
       }
     }, 100); // ms 후에 로직 실행
-  
+
     // Cleanup timer on component unmount or when dependencies change
     return () => clearTimeout(timer);
   }, [userCars, alertShown, navigate]); // userCars 또는 alertShown이 변경될 때 실행
-
 
   // 차량 목록 조회 함수
   const fetchCarList = () => {
@@ -81,7 +80,11 @@ const Sale2: React.FC = () => {
             <span className="username-highlight2">님의 차량 정보</span>
           </h2>
           {userCars.map((car, index) => (
-            <div key={index} className="car-info-container">
+            <div
+              key={index}
+              className="car-info-container"
+              style={{ marginBottom: "1rem" }}
+            >
               <div className="car-info-rowcontainer">
                 <div className="car-info-left">
                   <p style={{ fontSize: "18px" }}>{car.company}</p>
@@ -104,9 +107,23 @@ const Sale2: React.FC = () => {
                   <div style={{ marginTop: "40px" }}>
                     <button
                       className="add-car-button2"
-                      onClick={() => handleSaleClick(car.carId)}
+                      style={{
+                        marginLeft: "1rem",
+                        backgroundColor: car.isSale === 1 ? "#d9d9d9" : "", // isSale이 1이면 배경색을 회색으로 설정
+                        color: car.isSale === 1 ? "red" : "",
+                        cursor: car.isSale === 1 ? "not-allowed" : "pointer", // isSale이 1이면 클릭 불가
+                      }}
+                      onClick={(e) => {
+                        if (car.isSale !== 1) {
+                          handleSaleClick(car.carId);
+                        } else {
+                          e.preventDefault(); // 클릭 이벤트 막기
+                        }
+                      }}
+                      disabled={car.isSale === 1} // isSale이 1이면 버튼 비활성화
                     >
-                      판매 등록
+                      {/* isSale이 1이면 "판매 중", 아니면 "판매 등록" */}
+                      {car.isSale === 1 ? "판매 중" : "판매 등록"}{" "}
                     </button>
                   </div>
                 </div>

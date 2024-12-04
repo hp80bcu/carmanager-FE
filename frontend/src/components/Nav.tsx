@@ -71,7 +71,7 @@ export default function Nav() {
   const handleSaleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault(); // 페이지 이동 방지
     if (userId) {
-      navigate(`/sale`, { state: { userId } });
+      navigate(`/sale`, { state: { userId, username } });
     } else {
       // userId가 존재하지 않는 경우
       alert('로그인 후 이용해주세요.');

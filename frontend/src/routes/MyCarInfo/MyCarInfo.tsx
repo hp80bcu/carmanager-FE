@@ -26,8 +26,8 @@ const MyCarInfo: React.FC = () => {
   const [userCars, setUserCars] = useState<any[]>([]);
   const location = useLocation();
   const { userId, username } = location.state || {};
-  // console.log("username: ", username);
-  // console.log("userId: ", userId);
+  console.log("uername: ", username);
+
   // 백엔드에서 차량 목록 조회
   useEffect(() => {
     if (userId) {
