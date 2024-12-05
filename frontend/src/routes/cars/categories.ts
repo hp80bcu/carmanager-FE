@@ -13,7 +13,7 @@ export const categories = [
       { name: "주간주행등(DRL)", image: "/Image/options/drl.png" },
       { name: "고스트도어클로징", image: "/Image/options/ghostdoor.png" },
     ],
-  },
+  },  
   {
     title: "내장 옵션",
     options: [
