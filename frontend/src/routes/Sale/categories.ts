@@ -1,4 +1,5 @@
-export const categories = [
+
+  export const categories= [
     {
       title: "외장 옵션",
       options: [

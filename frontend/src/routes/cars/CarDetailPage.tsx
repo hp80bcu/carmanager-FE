@@ -6,6 +6,7 @@ import { Grid, Typography } from "@mui/material";
 import SearchBar from "../../components/Searchbar/Searchbar";
 import SideNav from "../../components/SideNav";
 import "./CarDetailPage.css";
+import CarOptions from "./CarOptions";
 import dayjs from "dayjs";
 
 // 타입(alias) 정의
@@ -37,6 +38,7 @@ type CarDetails = {
   carDescription: string;
 };
 
+
 const CarDetailPage: React.FC = () => {
   const { carId } = useParams();
   const [car, setCar] = useState<CarData | null>(null);
@@ -56,53 +58,6 @@ const CarDetailPage: React.FC = () => {
   const handleImageClick = (image: string) => {
     setSelectedImage(image);
   };
-
-  // useEffect(() => {
-  //   const params = new URLSearchParams(location.search);
-  //   const company = params.get("company");
-  //   const model = params.get("model");
-  //   const detail = params.get("detail");
-
-  //   const fetchData = async () => {
-  //     try {
-  //       // detail 값이 있는지 확인하여 URL 구성
-  //       let url = `http://localhost:8080/sells`;
-
-  //       if (company) {
-  //         url += `?company=${company}`;
-  //       }
-
-  //       if (model) {
-  //         url += `&model=${model}`;
-  //       }
-
-  //       if (detail) {
-  //         url += `&detail=${detail}`;
-  //       }
-
-  //       const response = await axios.get(url);
-  //       setCars(response.data.result);
-  //       setTotalCars(response.data.result.length); // 결과에 따라 총 차량 수 업데이트
-  //     } catch (error) {
-  //       console.error("차량 데이터를 가져오는 중 오류 발생:", error);
-  //       setCars([]);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [location.search]); // location.search가 바뀔 때마다 실행
-
-  // useEffect(() => {
-  //   const fetchCar = async () => {
-  //     try {
-  //       const response = await axios.get(`/api/cars/${carId}`);
-  //       setCar(response.data);
-  //     } catch (error) {
-  //       console.error("차량 상세 정보를 가져오는 중 오류 발생:", error);
-  //     }
-  //   };
-  //   fetchCar();
-  // }, [carId]);
 
   // 차량 상세 정보 가져오기
   useEffect(() => {
@@ -128,6 +83,7 @@ const CarDetailPage: React.FC = () => {
       fetchCarDetails();
     }
   }, [carId]);
+
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -401,10 +357,15 @@ const CarDetailPage: React.FC = () => {
           <div className="row-hipen-style"></div>
 
           <div className="car-options-section">
-            <h2>주요 옵션</h2>
-            <div className="options-list">
-              {/* 여기에 옵션 이미지 */}
-            </div>
+            {loading ? (
+            <p>로딩 중...</p>
+            ) : carDetails ? (
+              <>
+                <CarOptions options={carDetails.options} />
+              </>
+            ) : (
+              <p>데이터를 불러오지 못했습니다.</p>
+            )}
           </div>
 
           <div className="row-hipen-style"></div>

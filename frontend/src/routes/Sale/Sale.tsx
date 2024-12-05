@@ -34,7 +34,7 @@ const Sale: React.FC = () => {
 
   const stepsContent = [
     <Step1
-      categories={categories}
+      categories={[]}
       updateSelectedOptions={updateSelectedOptions}
     />,
     <Step2
