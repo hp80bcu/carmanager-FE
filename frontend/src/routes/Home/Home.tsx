@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InputLabel, FormControl, MenuItem, styled } from "@mui/material";
 import Select from "@mui/material/Select";
 import { useNavigate } from "react-router-dom"; // 추가
@@ -10,6 +10,7 @@ export default function Home() {
   const [manufacturer, setManufacturer] = useState("");
   const [model, setModel] = useState("");
   const [detailModel, setDetailModel] = useState("");
+  const [currentAdIndex, setCurrentAdIndex] = useState(0);
 
   const navigate = useNavigate(); // 네비게이트 함수 추가
 
@@ -18,13 +19,12 @@ export default function Home() {
 
     url.append("company", manufacturer);
 
-    if(model){
-      url.append("model", model);  
+    if (model) {
+      url.append("model", model);
     }
-    if(detailModel){
+    if (detailModel) {
       url.append("detail", detailModel);
     }
-    
 
     console.log("전송할 URL:", `/searchpage?${url.toString()}`);
 
@@ -42,12 +42,58 @@ export default function Home() {
     marginRight: "50px",
   });
 
+  // 광고 이미지 배열
+  const ads = [
+    {
+      href: "https://www.hyundai.com/kr/ko/e/vehicles/sonata-the-edge/intro",
+      src: "/Image/ad.jpg",
+    },
+    {
+      href: "https://www.kia.com/kr?utm_source=google_SA&utm_medium=AD202412&utm_campaign=KiaSales2024_brand&utm_content=keyword_pc&utm_term=%EA%B8%B0%EC%95%84%EC%9E%90%EB%8F%99%EC%B0%A8&gad_source=1",
+      src: "/Image/ad2.jpeg",
+    },
+    {
+      href: "https://www.tesla.com/ko_kr",
+      src: "/Image/ad3.jpeg",
+    },
+  ];
+
+  // 자동 슬라이드
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentAdIndex((prevIndex) => (prevIndex + 1) % ads.length); // 순환
+    }, 1800); // 초마다 슬라이드
+
+    return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
+  }, [ads.length]);
+
   return (
     <>
       <Nav />
       <div className="homecontainer">
         <div className="ad">
-          <a href="https://www.hyundai.com/kr/ko/e/vehicles/sonata-the-edge/intro"><img className="ad" src="/Image/ad.jpg" /></a>
+          <a
+            href={ads[currentAdIndex].href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              className="ad"
+              src={ads[currentAdIndex].src}
+              alt={`Ad ${currentAdIndex + 1}`}
+            />
+          </a>
+          <div>
+            <div className="ad-slider-dots">
+              {ads.map((_, index) => (
+                <span
+                  key={index}
+                  className={`dot ${index === currentAdIndex ? "active" : ""}`}
+                  onClick={() => setCurrentAdIndex(index)}
+                ></span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
       <div className="homecontainer">
