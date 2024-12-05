@@ -72,13 +72,13 @@ const SearchPage = () => {
           (a, b) =>
             (parseInt(a.year) - parseInt(b.year)) * (order === "asc" ? 1 : -1)
         ); // 연식
-      case "mileage":
+      case "distance":
         return [...cars].sort(
           (a, b) =>
             (parseInt(a.distance) - parseInt(b.distance)) *
             (order === "asc" ? 1 : -1)
         ); // 주행거리
-      case "latest":
+      case "registDate":
         return [...cars].sort(
           (a, b) =>
             (new Date(a.registDate).getTime() -
@@ -100,6 +100,9 @@ const SearchPage = () => {
     }
   };
 
+  // 정렬된 차량 리스트
+  const sortedCars = sortCars(cars, sortOption, sortOrder);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       {/* 고정된 SideNav */}
@@ -118,11 +121,11 @@ const SearchPage = () => {
         <Typography
           variant="body1"
           component="span"
-          onClick={() => handleSortChange("latest")}
+          onClick={() => handleSortChange("registDate")}
           style={{ cursor: "pointer", marginRight: "1rem" }}
         >
           최신 등록일{" "}
-          {sortOption === "latest" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+          {sortOption === "registDate" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
         </Typography>
         <Typography
           variant="body1"
@@ -135,11 +138,11 @@ const SearchPage = () => {
         <Typography
           variant="body1"
           component="span"
-          onClick={() => handleSortChange("mileage")}
+          onClick={() => handleSortChange("distance")}
           style={{ cursor: "pointer", marginRight: "1rem" }}
         >
           주행거리{" "}
-          {sortOption === "mileage" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+          {sortOption === "distance" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
         </Typography>
         <Typography
           variant="body1"
@@ -161,9 +164,9 @@ const SearchPage = () => {
           // background: "#f9f9f9",
         }}
       >
-        {cars && cars.length > 0 ? (
+        {sortedCars  && sortedCars.length > 0 ? (
           <Grid container columnSpacing={2} rowSpacing={3}>
-            {cars.map((car) => (
+            {sortedCars.map((car) => (
               <Grid
                 item
                 key={car.carId}
