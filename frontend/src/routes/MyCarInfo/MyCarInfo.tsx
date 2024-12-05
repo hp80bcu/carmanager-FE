@@ -10,7 +10,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import MaintenanceModal from "./MaintenanceModal";
 
-
 const MyCarInfo: React.FC = () => {
   const [isFirstPopupOpen, setIsFirstPopupOpen] = useState(false);
   const [isSecondPopupOpen, setIsSecondPopupOpen] = useState(false);
@@ -29,7 +28,6 @@ const MyCarInfo: React.FC = () => {
     detail: "",
     image: "",
   });
-
   // 차량 목록 상태
   const [userCars, setUserCars] = useState<any[]>([]);
   const location = useLocation();
@@ -66,7 +64,6 @@ const MyCarInfo: React.FC = () => {
     setIsMaintenanceModalOpen(false);
     setSelectedCarId(null);
   };
-
 
   // 판매 등록 버튼
   const handleSaleClick = (carId: BigInt) => {
@@ -113,108 +110,115 @@ const MyCarInfo: React.FC = () => {
               차량 추가
             </button>
           </div>
-          <h2 className="username-container">
-            <span className="username-highlight">{username}</span>{" "}
-            <span className="username-highlight2">님의 차량 정보</span>
-          </h2>
+
           {userCars.map((car, index) => (
-            <div
-              key={index}
-              className="car-info-container"
-              style={{ marginBottom: "1rem" }}
-            >
-              <div className="car-info-rowcontainer">
-                <div className="car-info-left">
-                  <p style={{ fontSize: "18px" }}>{car.company}</p>
-                  <p style={{ fontWeight: "bold", fontSize: "30px" }}>
-                    {car.model}
-                  </p>
-                  <p style={{ fontSize: "23px", color: "#7A7A7A" }}>
-                    {car.modelDetail}
-                  </p>
-                  <p>
-                    <span className="orange-bold-style">
-                      {car.date.split("-")[0]}
-                    </span>
-                    {"년형"} | {"주행거리"}
-                    <span className="orange-bold-style">
-                      {Number(car.distance).toLocaleString()}km
-                    </span>{" "}
-                    | <span className="orange-bold-style">{car.color}</span>
-                  </p>
-                  <div style={{ marginTop: "40px" }}>
-                    <button
-                      className="add-car-button2"
-                      onClick={() => handleMaintenanceClick(car.carId, car.carNum)}
-                    >
-                      정비 이력
-                    </button>
-                    <button
-                      className="add-car-button2"
-                      style={{
-                        marginLeft: "1rem",
-                        backgroundColor: car.isSale === 1 ? "#d9d9d9" : "", // isSale이 1이면 배경색을 회색으로 설정
-                        color: car.isSale === 1 ? "red" : "",
-                        cursor: car.isSale === 1 ? "not-allowed" : "pointer", // isSale이 1이면 클릭 불가
-                      }}
-                      onClick={(e) => {
-                        if (car.isSale !== 1) {
-                          handleSaleClick(car.carId);
-                        } else {
-                          e.preventDefault(); // 클릭 이벤트 막기
+            <div>
+              <h2 className="username-container">
+                <span className="username-highlight">{car.carNum}</span>{" "}
+                <span className="username-highlight2">의 차량 정보</span>
+              </h2>
+              <div
+                key={index}
+                className="car-info-container"
+                style={{ marginBottom: "1rem" }}
+              >
+                <div className="car-info-rowcontainer">
+                  <div className="car-info-left">
+                    <p style={{ fontSize: "18px" }}>{car.company}</p>
+                    <p style={{ fontWeight: "bold", fontSize: "30px" }}>
+                      {car.model}
+                    </p>
+                    <p style={{ fontSize: "23px", color: "#7A7A7A" }}>
+                      {car.modelDetail}
+                    </p>
+                    <p>
+                      <span className="orange-bold-style">
+                        {car.date.split("-")[0]}
+                      </span>
+                      {"년형"} | {"주행거리"}
+                      <span className="orange-bold-style">
+                        {Number(car.distance).toLocaleString()}km
+                      </span>{" "}
+                      | <span className="orange-bold-style">{car.color}</span>
+                    </p>
+                    <div style={{ marginTop: "40px" }}>
+                      <button
+                        className="add-car-button2"
+                        onClick={() =>
+                          handleMaintenanceClick(car.carId, car.carNum)
                         }
-                      }}
-                      disabled={car.isSale === 1} // isSale이 1이면 버튼 비활성화
+                      >
+                        정비 이력
+                      </button>
+                      <button
+                        className="add-car-button2"
+                        style={{
+                          marginLeft: "1rem",
+                          backgroundColor: car.isSale === 1 ? "#d9d9d9" : "", // isSale이 1이면 배경색을 회색으로 설정
+                          color: car.isSale === 1 ? "red" : "",
+                          cursor: car.isSale === 1 ? "not-allowed" : "pointer", // isSale이 1이면 클릭 불가
+                        }}
+                        onClick={(e) => {
+                          if (car.isSale !== 1) {
+                            handleSaleClick(car.carId);
+                          } else {
+                            e.preventDefault(); // 클릭 이벤트 막기
+                          }
+                        }}
+                        disabled={car.isSale === 1} // isSale이 1이면 버튼 비활성화
+                      >
+                        {/* isSale이 1이면 "판매 중", 아니면 "판매 등록" */}
+                        {car.isSale === 1 ? "판매 중" : "판매 등록"}{" "}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="car-info-center">
+                    <p className="info-row">
+                      <span>최초등록일</span>{" "}
+                      <span className="orange-bold-style">
+                        {dayjs(car.firstRegisterDate).format(
+                          "YYYY년 MM월 DD일"
+                        )}
+                      </span>
+                    </p>
+
+                    <div className="carlist-row-hipen-style"></div>
+
+                    <p className="info-row">
+                      <span>배기량</span>{" "}
+                      <span className="orange-bold-style">
+                        {Number(car.displacement).toLocaleString()} cc
+                      </span>
+                    </p>
+
+                    <div className="carlist-row-hipen-style"></div>
+
+                    <p className="info-row">
+                      <span>연료</span>{" "}
+                      <span className="orange-bold-style">{car.fuel}</span>
+                    </p>
+
+                    <div className="carlist-row-hipen-style"></div>
+
+                    <p
+                      className="info-row"
+                      style={{ marginTop: "10px", marginBottom: "5px" }}
                     >
-                      {/* isSale이 1이면 "판매 중", 아니면 "판매 등록" */}
-                      {car.isSale === 1 ? "판매 중" : "판매 등록"}{" "}
+                      <span>변속기</span>{" "}
+                      <span className="orange-bold-style">{car.shift}</span>
+                    </p>
+                  </div>
+                  <div className="car-info-right">
+                    <img src={car.image} alt="Car" />
+                  </div>
+                  <div>
+                    <button
+                      className="car-info-trashbutton"
+                      onClick={() => handleCarDeleteClick(car.carId)}
+                    >
+                      <FaTrash size={20} />
                     </button>
                   </div>
-                </div>
-                <div className="car-info-center">
-                  <p className="info-row">
-                    <span>최초등록일</span>{" "}
-                    <span className="orange-bold-style">
-                      {dayjs(car.firstRegisterDate).format("YYYY년 MM월 DD일")}
-                    </span>
-                  </p>
-
-                  <div className="carlist-row-hipen-style"></div>
-
-                  <p className="info-row">
-                    <span>배기량</span>{" "}
-                    <span className="orange-bold-style">
-                      {Number(car.displacement).toLocaleString()} cc
-                    </span>
-                  </p>
-
-                  <div className="carlist-row-hipen-style"></div>
-
-                  <p className="info-row">
-                    <span>연료</span>{" "}
-                    <span className="orange-bold-style">{car.fuel}</span>
-                  </p>
-
-                  <div className="carlist-row-hipen-style"></div>
-
-                  <p
-                    className="info-row"
-                    style={{ marginTop: "10px", marginBottom: "5px" }}
-                  >
-                    <span>변속기</span>{" "}
-                    <span className="orange-bold-style">{car.shift}</span>
-                  </p>
-                </div>
-                <div className="car-info-right">
-                  <img src={car.image} alt="Car" />
-                </div>
-                <div>
-                  <button
-                    className="car-info-trashbutton"
-                    onClick={() => handleCarDeleteClick(car.carId)}
-                  >
-                    <FaTrash size={20} />
-                  </button>
                 </div>
               </div>
             </div>
