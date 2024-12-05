@@ -6,6 +6,7 @@ import { CarData } from "../cars/CarData";
 import SideNav from "../../components/SideNav";
 import SearchBar from "../../components/Searchbar/Searchbar";
 import { Grid, Typography } from "@mui/material";
+import "../SearchPage/SearchPage.css";
 
 const Purchase = () => {
   const [cars, setCars] = useState<CarData[]>([]);
@@ -167,7 +168,7 @@ const Purchase = () => {
           </div>
         </div>
 
-        <div className="row-hipen-style"></div>
+        <div className="row-hipen"></div>
 
         {sortedCars && sortedCars.length > 0 ? (
           <Grid container columnSpacing={2} rowSpacing={3}>

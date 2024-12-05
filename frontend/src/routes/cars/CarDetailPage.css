@@ -204,7 +204,7 @@
 }
 
 .row-hipen-style {
-  /* margin-top: 10px; */
+  margin: 0px;
   height: 1px;
   width: 100%;
   background-color: #d9d9d9;

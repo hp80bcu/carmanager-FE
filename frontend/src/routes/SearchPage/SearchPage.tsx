@@ -171,7 +171,7 @@ const SearchPage = () => {
           </div>
         </div>
 
-        <div className="row-hipen-style"></div>
+        <div className="row-hipen"></div>
 
         {sortedCars && sortedCars.length > 0 ? (
           <Grid container columnSpacing={2} rowSpacing={3}>

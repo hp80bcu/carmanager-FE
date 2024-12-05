@@ -179,7 +179,7 @@ const MyCarInfo: React.FC = () => {
                     </span>
                   </p>
 
-                  <div className="row-hipen-style"></div>
+                  <div className="carlist-row-hipen-style"></div>
 
                   <p className="info-row">
                     <span>배기량</span>{" "}
@@ -188,14 +188,14 @@ const MyCarInfo: React.FC = () => {
                     </span>
                   </p>
 
-                  <div className="row-hipen-style"></div>
+                  <div className="carlist-row-hipen-style"></div>
 
                   <p className="info-row">
                     <span>연료</span>{" "}
                     <span className="orange-bold-style">{car.fuel}</span>
                   </p>
 
-                  <div className="row-hipen-style"></div>
+                  <div className="carlist-row-hipen-style"></div>
 
                   <p
                     className="info-row"

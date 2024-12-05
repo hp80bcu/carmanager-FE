@@ -86,7 +86,44 @@ const CarDetailPage: React.FC = () => {
     }
   }, [carId]);
 
- // 세시 확인 버튼
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const company = params.get("company");
+    const model = params.get("model");
+    const detail = params.get("detail");
+
+    const fetchData = async () => {
+      try {
+        // detail 값이 있는지 확인하여 URL 구성
+        let url = `http://localhost:8080/sells`;
+
+        if (company) {
+          url += `?company=${company}`;
+        }
+
+        if (model) {
+          url += `&model=${model}`;
+        }
+
+        if (detail) {
+          url += `&detail=${detail}`;
+        }
+
+        const response = await axios.get(url);
+        setCars(response.data.result);
+        console.log(response.data.result);
+        setTotalCars(response.data.result.length); // 결과에 따라 총 차량 수 업데이트
+      } catch (error) {
+        console.error("차량 데이터를 가져오는 중 오류 발생:", error);
+        setCars([]);
+      }
+    };
+
+    fetchData();
+  }, [location.search]); // location.search가 바뀔 때마다 실행
+
+
+ // 시세 확인 버튼
  const handleMarketPricClick = (carModel: string) => {
   setIsMarketPricModalOpen(true);
   setCarModel(carModel);
