@@ -47,7 +47,7 @@ export default function Home() {
       <Nav />
       <div className="homecontainer">
         <div className="ad">
-          <text>A.D</text>
+          <a href="https://www.hyundai.com/kr/ko/e/vehicles/sonata-the-edge/intro"><img className="ad" src="/Image/ad.jpg" /></a>
         </div>
       </div>
       <div className="homecontainer">
