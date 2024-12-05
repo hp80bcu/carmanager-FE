@@ -1,0 +1,30 @@
+.saletitle-container {
+  direction: row;
+  display: flex;
+  width: 80%;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.saletitle-container h1 {
+  margin: 0;
+}
+
+.sort-container {
+  direction: row;
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  gap: 20px;
+  color: #525252;
+}
+.sort-container Typography {
+  cursor: pointer;
+}
+
+.row-hipen-style {
+  margin-bottom: 30px;
+  height: 1px;
+  width: 80%;
+  background-color: #d9d9d9;
+}

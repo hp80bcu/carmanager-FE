@@ -5,15 +5,8 @@ import CarCard from "../cars/CarCard";
 import { CarData } from "../cars/CarData";
 import SideNav from "../../components/SideNav";
 import SearchBar from "../../components/Searchbar/Searchbar";
-import {
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Typography,
-} from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+import "./SearchPage.css";
 
 const SearchPage = () => {
   const [cars, setCars] = useState<CarData[]>([]);
@@ -116,43 +109,7 @@ const SearchPage = () => {
           }}
         />
       </div>
-      {/* 정렬 기준 텍스트 클릭 */}
-      <div style={{ padding: "1rem", marginLeft: "20rem" }}>
-        <Typography
-          variant="body1"
-          component="span"
-          onClick={() => handleSortChange("registDate")}
-          style={{ cursor: "pointer", marginRight: "1rem" }}
-        >
-          최신 등록일{" "}
-          {sortOption === "registDate" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
-        </Typography>
-        <Typography
-          variant="body1"
-          component="span"
-          onClick={() => handleSortChange("price")}
-          style={{ cursor: "pointer", marginRight: "1rem" }}
-        >
-          가격 {sortOption === "price" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
-        </Typography>
-        <Typography
-          variant="body1"
-          component="span"
-          onClick={() => handleSortChange("distance")}
-          style={{ cursor: "pointer", marginRight: "1rem" }}
-        >
-          주행거리{" "}
-          {sortOption === "distance" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
-        </Typography>
-        <Typography
-          variant="body1"
-          component="span"
-          onClick={() => handleSortChange("year")}
-          style={{ cursor: "pointer", marginRight: "1rem" }}
-        >
-          연식 {sortOption === "year" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
-        </Typography>
-      </div>
+
       {/* 스크롤 가능 영역 */}
       <div
         style={{
@@ -164,7 +121,59 @@ const SearchPage = () => {
           // background: "#f9f9f9",
         }}
       >
-        {sortedCars  && sortedCars.length > 0 ? (
+        {/* 정렬 기준 텍스트 클릭 */}
+        <div className="saletitle-container">
+          <h1>매물</h1>
+          <div className="sort-container">
+            <Typography
+              variant="body1"
+              component="span"
+              onClick={() => handleSortChange("registDate")}
+  
+            >
+              최신 등록일{" "}
+              {sortOption === "registDate"
+                ? sortOrder === "asc"
+                  ? "▲"
+                  : "▼"
+                : ""}
+            </Typography>
+            <Typography
+              variant="body1"
+              component="span"
+              onClick={() => handleSortChange("price")}
+
+            >
+              가격{" "}
+              {sortOption === "price" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+            </Typography>
+            <Typography
+              variant="body1"
+              component="span"
+              onClick={() => handleSortChange("distance")}
+  
+            >
+              주행거리{" "}
+              {sortOption === "distance"
+                ? sortOrder === "asc"
+                  ? "▲"
+                  : "▼"
+                : ""}
+            </Typography>
+            <Typography
+              variant="body1"
+              component="span"
+              onClick={() => handleSortChange("year")}
+            >
+              연식{" "}
+              {sortOption === "year" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+            </Typography>
+          </div>
+        </div>
+
+        <div className="row-hipen-style"></div>
+
+        {sortedCars && sortedCars.length > 0 ? (
           <Grid container columnSpacing={2} rowSpacing={3}>
             {sortedCars.map((car) => (
               <Grid
