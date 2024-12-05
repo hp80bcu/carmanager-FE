@@ -23,7 +23,6 @@
   /* position: absolute; */
   margin-top: 10px;
   left: 50%;
-  transform: translateX(-50%);
   display: flex;
   gap: 8px;
 }
