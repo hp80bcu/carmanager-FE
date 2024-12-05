@@ -8,11 +8,19 @@ import "./MyCarinfo.css";
 import "./CarList.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
+import MaintenanceModal from "./MaintenanceModal";
+
 
 const MyCarInfo: React.FC = () => {
   const [isFirstPopupOpen, setIsFirstPopupOpen] = useState(false);
   const [isSecondPopupOpen, setIsSecondPopupOpen] = useState(false);
+
+  const [isMaintenanceModalOpen, setIsMaintenanceModalOpen] = useState(false);
+  const [selectedCarId, setSelectedCarId] = useState<BigInt | null>(null);
+  const [selectedCarNum, setCarNum] = useState<string>("");
+
   const navigate = useNavigate();
+
   // 차량 정보 상태 관리
   const [carInfo, setCarInfo] = useState({
     carNumber: "",
@@ -49,9 +57,16 @@ const MyCarInfo: React.FC = () => {
   };
 
   // 정비 이력 버튼
-  const handleMaintenanceClick = () => {
-    console.log("정비 이력 버튼 클릭!!");
+  const handleMaintenanceClick = (carId: BigInt, carNum: string) => {
+    setSelectedCarId(carId);
+    setIsMaintenanceModalOpen(true);
+    setCarNum(carNum);
   };
+  const handleCloseMaintenanceModal = () => {
+    setIsMaintenanceModalOpen(false);
+    setSelectedCarId(null);
+  };
+
 
   // 판매 등록 버튼
   const handleSaleClick = (carId: BigInt) => {
@@ -130,7 +145,7 @@ const MyCarInfo: React.FC = () => {
                   <div style={{ marginTop: "40px" }}>
                     <button
                       className="add-car-button2"
-                      onClick={handleMaintenanceClick}
+                      onClick={() => handleMaintenanceClick(car.carId, car.carNum)}
                     >
                       정비 이력
                     </button>
@@ -238,6 +253,16 @@ const MyCarInfo: React.FC = () => {
           onReopenFirstPopup={handleOpenFirstPopup}
           {...carInfo}
           userId={userId}
+        />
+      )}
+
+      {/* 정비 이력 Modal */}
+      {selectedCarId && (
+        <MaintenanceModal
+          carId={selectedCarId}
+          carNum={selectedCarNum}
+          isOpen={isMaintenanceModalOpen}
+          onClose={handleCloseMaintenanceModal}
         />
       )}
     </>
