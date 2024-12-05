@@ -8,8 +8,10 @@ type CarOptionsProps = {
 const CarOptions: React.FC<CarOptionsProps> = ({ options }) => {
   if (!options) return null; // options가 없는 경우 아무것도 렌더링하지 않음
 
-  const responseOptions = options.split(", ").map((option) => option.trim());
-
+  const responseOptions = options.replace('[', '') // 배열의 시작 부분을 제거
+  .replace(']', '') // 배열의 끝 부분을 제거
+  .split(',') // 쉼표로 분리하여 배열로 변환
+  .map(option => option.trim());
   const matchedOptions: { name: string; image: string; }[] = [];
   categories.forEach((category) => {
     category.options.forEach((option) => {
