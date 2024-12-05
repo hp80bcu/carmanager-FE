@@ -5,12 +5,22 @@ import CarCard from "../cars/CarCard";
 import { CarData } from "../cars/CarData";
 import SideNav from "../../components/SideNav";
 import SearchBar from "../../components/Searchbar/Searchbar";
-import { Grid, Typography} from "@mui/material";
+import {
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 
 const SearchPage = () => {
   const [cars, setCars] = useState<CarData[]>([]);
   const [totalCars, setTotalCars] = useState<number>(0);
   const location = useLocation(); // URL의 쿼리 파라미터를 읽기 위해 추가
+  const [sortOption, setSortOption] = useState<string>(""); // 정렬 기준
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc"); // 오름차순/내림차순 상태
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -23,14 +33,14 @@ const SearchPage = () => {
         // detail 값이 있는지 확인하여 URL 구성
         let url = `http://localhost:8080/sells`;
 
-        if(company){
+        if (company) {
           url += `?company=${company}`;
         }
-        
+
         if (model) {
           url += `&model=${model}`;
         }
-        
+
         if (detail) {
           url += `&detail=${detail}`;
         }
@@ -48,6 +58,48 @@ const SearchPage = () => {
     fetchData();
   }, [location.search]); // location.search가 바뀔 때마다 실행
 
+  // 차량 정렬 함수
+  const sortCars = (cars: CarData[], option: string, order: "asc" | "desc") => {
+    switch (option) {
+      case "price":
+        return [...cars].sort(
+          (a, b) =>
+            (parseFloat(a.price) - parseFloat(b.price)) *
+            (order === "asc" ? 1 : -1)
+        ); // 가격
+      case "year":
+        return [...cars].sort(
+          (a, b) =>
+            (parseInt(a.year) - parseInt(b.year)) * (order === "asc" ? 1 : -1)
+        ); // 연식
+      case "mileage":
+        return [...cars].sort(
+          (a, b) =>
+            (parseInt(a.distance) - parseInt(b.distance)) *
+            (order === "asc" ? 1 : -1)
+        ); // 주행거리
+      case "latest":
+        return [...cars].sort(
+          (a, b) =>
+            (new Date(a.registDate).getTime() -
+              new Date(b.registDate).getTime()) *
+            (order === "asc" ? 1 : -1)
+        ); // 최신 등록일
+      default:
+        return cars;
+    }
+  };
+
+  // 정렬 기준과 방향을 토글하는 함수
+  const handleSortChange = (option: string) => {
+    if (sortOption === option) {
+      setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc")); // 이미 선택한 항목을 클릭하면 오름차순/내림차순 토글
+    } else {
+      setSortOption(option);
+      setSortOrder("asc"); // 새로운 항목을 선택하면 기본적으로 오름차순으로 설정
+    }
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       {/* 고정된 SideNav */}
@@ -55,9 +107,48 @@ const SearchPage = () => {
       {/* 고정된 SearchBar */}
       <div style={{ position: "sticky", top: 0, zIndex: 10 }}>
         <SearchBar
-          placeholder={`${totalCars.toLocaleString()} 대의 차량이 등록되어 있습니다!`} onSearch={function (searchTerm: string): void {
+          placeholder={`${totalCars.toLocaleString()} 대의 차량이 등록되어 있습니다!`}
+          onSearch={function (searchTerm: string): void {
             throw new Error("Function not implemented.");
-          } }        />
+          }}
+        />
+      </div>
+      {/* 정렬 기준 텍스트 클릭 */}
+      <div style={{ padding: "1rem", marginLeft: "20rem" }}>
+        <Typography
+          variant="body1"
+          component="span"
+          onClick={() => handleSortChange("latest")}
+          style={{ cursor: "pointer", marginRight: "1rem" }}
+        >
+          최신 등록일{" "}
+          {sortOption === "latest" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+        </Typography>
+        <Typography
+          variant="body1"
+          component="span"
+          onClick={() => handleSortChange("price")}
+          style={{ cursor: "pointer", marginRight: "1rem" }}
+        >
+          가격 {sortOption === "price" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+        </Typography>
+        <Typography
+          variant="body1"
+          component="span"
+          onClick={() => handleSortChange("mileage")}
+          style={{ cursor: "pointer", marginRight: "1rem" }}
+        >
+          주행거리{" "}
+          {sortOption === "mileage" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+        </Typography>
+        <Typography
+          variant="body1"
+          component="span"
+          onClick={() => handleSortChange("year")}
+          style={{ cursor: "pointer", marginRight: "1rem" }}
+        >
+          연식 {sortOption === "year" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+        </Typography>
       </div>
       {/* 스크롤 가능 영역 */}
       <div

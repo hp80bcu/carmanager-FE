@@ -23,6 +23,7 @@
   }
   .modal-content h2{
     margin: 0;
+    float: left;
   }
   
   .close-button {

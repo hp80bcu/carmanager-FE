@@ -8,6 +8,7 @@ import SideNav from "../../components/SideNav";
 import "./CarDetailPage.css";
 import CarOptions from "./CarOptions";
 import dayjs from "dayjs";
+import MarketPriceModal from "./MarketPriceModal";
 
 // 타입(alias) 정의
 type CarDetails = {
@@ -46,7 +47,8 @@ const CarDetailPage: React.FC = () => {
   const [totalCars, setTotalCars] = useState<number>(0);
   const [carDetails, setCarDetails] = useState<CarDetails | null>(null);
   const [loading, setLoading] = useState<boolean>(true); // 전체 로딩 상태 추가
-
+  const [isMarketPriceModalOpen, setIsMarketPricModalOpen] = useState(false);
+  const [selectedCarModel, setCarModel] = useState<string>("");
   // 선택된 이미지 상태 관리
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -84,8 +86,17 @@ const CarDetailPage: React.FC = () => {
     }
   }, [carId]);
 
+ // 세시 확인 버튼
+ const handleMarketPricClick = (carModel: string) => {
+  setIsMarketPricModalOpen(true);
+  setCarModel(carModel);
+};
+const handleCloseMarketPricModal = () => {
+  setIsMarketPricModalOpen(false);
+};
 
   return (
+    <>
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       {/* 고정된 SideNav */}
       <SideNav />
@@ -189,7 +200,7 @@ const CarDetailPage: React.FC = () => {
                     : Number(carDetails.price).toLocaleString()}
                   만원
                 </h2>
-                <button>시세확인</button>
+                <button onClick={() => handleMarketPricClick(carDetails?.carModel ?? "")}>시세확인</button>
               </div>
               <div className="car-detail-first-content-basic-info3">
                 <div className="car-detail-first-content-basic-info3-column">
@@ -381,6 +392,15 @@ const CarDetailPage: React.FC = () => {
         </div>
       </div>
     </div>
+    {/* 정비 이력 Modal */}
+    {selectedCarModel && (
+      <MarketPriceModal
+        carModel={selectedCarModel}
+        isOpen={isMarketPriceModalOpen}
+        onClose={handleCloseMarketPricModal}
+      />
+    )}
+    </>
   );
 };
 
